@@ -9,6 +9,7 @@ import MyPage from './pages/MyPage/MyPage';
 import Donataion from './pages/Donataion/Donataion';
 import DonataionInputPage from './pages/Donataion/DonataionInputPage';
 import StoreDetail from './pages/StoreDetail/StoreDetail';
+import Redirect from './pages/Redirect';
 
 export const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ export const router = createBrowserRouter([
     element: <App />,
     errorElement: <NotFound />,
     children: [
-      { index: true, element: <></> },
+      { index: true, element: <Redirect /> },
       { path: '/home', element: <Home /> },
       { path: '/login', element: <Login /> },
       { path: '/login/auth', element: <AuthCallback /> },

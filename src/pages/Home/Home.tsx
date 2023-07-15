@@ -68,12 +68,9 @@ export default function Home() {
 
   // 현재 위치 활성화
   useEffect(() => {
-    if (location.loaded) {
+    if (location.loaded && !location.error?.code) {
       setCurrentLocation(location.coordinates!);
-      const centerPosition = new window.kakao.maps.LatLng(
-        location.coordinates?.lat,
-        location.coordinates?.lng
-      );
+      const centerPosition = new window.kakao.maps.LatLng(location.coordinates?.lat, location.coordinates?.lng);
       map?.setCenter(centerPosition);
 
       const content = document.createElement('div');
@@ -214,9 +211,7 @@ export default function Home() {
         isUpPosition={selectedId === null ? false : true}
         setCurrentLocation={setCurrentLocation}
       /> */}
-      {selectedId && (
-        <CupStoreItem cupStore={data!.cupStores.find((item) => item.cupStoreId === selectedId)!} />
-      )}
+      {selectedId && <CupStoreItem cupStore={data!.cupStores.find((item) => item.cupStoreId === selectedId)!} />}
     </Container>
   );
 }
