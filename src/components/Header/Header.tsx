@@ -16,7 +16,11 @@ export default function Header() {
     pathname.includes("/uploadImage") ||
     pathname.includes("/submit")
   ) {
-    return <SmallHeader />;
+    return (
+      <HeaderContainer>
+        <SmallHeader />
+      </HeaderContainer>
+    );
   } else {
     return (
       <HeaderContainer>

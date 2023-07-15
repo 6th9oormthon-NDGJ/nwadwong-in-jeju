@@ -10,8 +10,10 @@ export default function SmallHeader() {
 
   return (
     <Header>
-      <BackIcon onClick={() => window.history.back()} />
-      <Title>{matchedTitle}</Title>
+      <div className="title">
+        <BackIcon onClick={() => window.history.back()} />
+        <Title>{matchedTitle}</Title>
+      </div>
     </Header>
   );
 }
@@ -22,14 +24,19 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  padding-top: 49px;
   margin-bottom: 17px;
+
+  .title {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 64px 0 0 0;
+  }
 `;
 
 const BackIcon = styled(FaChevronLeft)`
   width: 15px;
   height: 15px;
-  top: 72px;
   left: 12px;
   position: absolute;
 
@@ -40,8 +47,8 @@ const BackIcon = styled(FaChevronLeft)`
 
 const Title = styled.p`
   font-size: 18px;
-  line-height: 27px;
   font-weight: 700;
+  color: #252730;
 `;
 
 const TITLE_DATA = [
