@@ -8,7 +8,7 @@ import { uploadSuccessState } from '../../recoil/uploadSuccessState';
 
 interface ImageInputProps {
   src?: string;
-  imagePreview?: string | null;
+  $imagePreview?: string | null;
 }
 
 export interface UserPointDataType {
@@ -21,7 +21,7 @@ export interface UserPointDataType {
 
 export default function UploadImage() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [, error, , fetchData] = useAxios();
+  const [, , , fetchData] = useAxios();
   const setUserPointData = useSetRecoilState(userPointState);
   const setIsSuccess = useSetRecoilState(uploadSuccessState);
   const token = localStorage.getItem('token');
@@ -69,31 +69,28 @@ export default function UploadImage() {
         setTimeout(() => {
           setIsSuccess(false);
         }, 2000);
+        setImagePreview('#d9d9d9');
       }
     });
   };
 
-  console.log(error);
-
   return (
     <UploadContainer>
-      <form>
-        <UploadBtn imagePreview={imagePreview ?? `#d9d9d9`}>
-          <UploadLabel htmlFor="uploadButton">
-            <ImagePreview
-              src="/images/uploadImage/default.png"
-              imagePreview={imagePreview}
-            ></ImagePreview>
-            <AddIcon src="/images/uploadImage/addIcon.png"></AddIcon>
-          </UploadLabel>
-          <ImageInput
-            type="file"
-            accept="image/*"
-            id="uploadButton"
-            onChange={(e: ChangeEvent<HTMLInputElement>) => onUpload(e)}
-          />
-        </UploadBtn>
-      </form>
+      <UploadBtn $imagePreview={imagePreview ?? `#d9d9d9`}>
+        <UploadLabel htmlFor="uploadButton">
+          <ImagePreview
+            src="/images/uploadImage/default.png"
+            $imagePreview={imagePreview}
+          ></ImagePreview>
+          <AddIcon src="/images/uploadImage/addIcon.png"></AddIcon>
+        </UploadLabel>
+        <ImageInput
+          type="file"
+          accept="image/*"
+          id="uploadButton"
+          onChange={(e: ChangeEvent<HTMLInputElement>) => onUpload(e)}
+        />
+      </UploadBtn>
       <SubmitBtn onClick={() => submitImage()}>제출하기</SubmitBtn>
     </UploadContainer>
   );
@@ -105,15 +102,15 @@ const UploadContainer = styled.div`
   align-items: center;
 `;
 
-const UploadBtn = styled.div<ImageInputProps>`
-  width: 334px;
+const UploadBtn = styled.form<ImageInputProps>`
+  width: 100%;
   height: 486px;
   margin: 0 auto 38px auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url(${(props) => props.imagePreview});
-  background-color: ${(props) => props.imagePreview};
+  background-image: url(${(props) => props.$imagePreview});
+  background-color: ${(props) => props.$imagePreview};
   object-fit: cover;
   background-size: cover;
   background-position: center;
@@ -135,26 +132,14 @@ const UploadLabel = styled.label`
   }
 `;
 
-const SubmitBtn = styled.button`
-  width: 166px;
-  height: 50px;
-  margin-bottom: 20px;
-  border: none;
-  border-radius: 8px;
-  background-color: #b4f3a8;
-  font-size: 16px;
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
 const ImagePreview = styled.img<ImageInputProps>`
   display: flex;
   justify-content: center;
   align-items: center;
   display: ${(props) =>
-    !props.imagePreview || props.imagePreview === '#d9d9d9' ? 'block' : 'none'};
+    !props.$imagePreview || props.$imagePreview === '#d9d9d9'
+      ? 'block'
+      : 'none'};
 `;
 
 const AddIcon = styled.img`
@@ -172,4 +157,18 @@ const ImageInput = styled.input<ImageInputProps>`
   border: 1px solid red;
   left: 50%;
   transform: translate(-50%, 0%);
+`;
+
+const SubmitBtn = styled.button`
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  background-color: #b4f3a8;
+  font-size: 16px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #a8e09d;
+  }
 `;
