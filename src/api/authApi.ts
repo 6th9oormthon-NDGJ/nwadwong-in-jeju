@@ -8,6 +8,11 @@ export async function checkValidToken() {
         Authorization: token!,
       },
     });
+
+    if (!result.ok) {
+      throw new Error('invalid token');
+    }
+
     const user = await result.json();
     return user;
   } catch (err) {
