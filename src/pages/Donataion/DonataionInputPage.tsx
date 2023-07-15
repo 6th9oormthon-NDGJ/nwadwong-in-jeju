@@ -1,47 +1,54 @@
 import { styled } from 'styled-components';
 import ShadowButton from '../../components/Button/ShadowButton';
-import { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import userState from '../../recoil/userState';
+import { usePostDonation } from '../../api/organizationApi';
+import { checkValidToken } from '../../api/authApi';
 
 export default function DonataionInputPage() {
   const ref = useRef<HTMLInputElement>(null);
+  const [point, setPoint] = useState<number>(0);
   const navigate = useNavigate();
+  const { id } = useParams();
   const user = useRecoilValue(userState);
+  const setUser = useSetRecoilState(userState);
 
-  async function postDonation() {
+  async function donationHandler() {
     if (!user) return;
 
-    if (!ref.current?.value) {
-      alert('유효한 값을 입력해주세요!');
+    if (point < 1000) {
+      alert('최소 입력 포인트는 1000 포인트입니다!');
       return;
     }
 
-    if (+ref.current?.value > user.point) {
+    if (point % 1000 !== 0) {
+      alert('1000 포인트 단위의 포인트를 입력해주세요!');
+      return;
+    }
+
+    if (point > user.point) {
       alert('보유한 포인트 이하의 값을 입력해주세요!');
       return;
     }
 
-    await fetch('/api/donation', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: localStorage.getItem('token')!,
-      },
-      body: JSON.stringify({
-        donationPoint: ref.current?.value,
-        organizationId: 1,
-      }),
-    });
-    navigate('/donation');
+    mutate();
   }
+
+  const { mutate } = usePostDonation(id!, point, {
+    onSuccess: async () => {
+      const user = await checkValidToken();
+      setUser(user!);
+      navigate('/');
+    },
+  });
 
   return (
     <Container>
       <div className="post-donation">
         <input
-          ref={ref}
+          onChange={(e) => setPoint(+e.target.value)}
           type="number"
           min={0}
           max={user?.point}
@@ -49,7 +56,7 @@ export default function DonataionInputPage() {
           maxLength={10}
         />
         <p className="current-point">총 {user?.point.toLocaleString()}원 보유</p>
-        <ShadowButton onClick={postDonation}>포인트 기부하기</ShadowButton>
+        <ShadowButton onClick={donationHandler}>포인트 기부하기</ShadowButton>
       </div>
     </Container>
   );

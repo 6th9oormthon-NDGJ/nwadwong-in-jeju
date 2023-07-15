@@ -1,39 +1,51 @@
-import { useEffect, useState } from "react";
-import { styled } from "styled-components";
-import ShadowButton from "../../components/Button/ShadowButton";
-import { useNavigate } from "react-router-dom";
-
-const TARGET_POINT = 1000000;
+import { useEffect, useState } from 'react';
+import { styled } from 'styled-components';
+import ShadowButton from '../../components/Button/ShadowButton';
+import { useNavigate } from 'react-router-dom';
+import { useGetAllOrganizations, useGetOrganizationById } from '../../api/organizationApi';
+import { Organization } from '../../types/organization';
 
 const Donataion = () => {
-  const [accPrice, setAccPrice] = useState<number | null>(null);
   const navigate = useNavigate();
-
-  async function getAcc() {
-    const result = await (
-      await fetch("/api/organization?organizationId=1")
-    ).json();
-    setAccPrice(result.accumulatePoint);
-  }
+  const [currrentOrganization, setCurrrentOrganization] = useState<Organization | null>(null);
+  const [currentId, setCurrentId] = useState<string>('');
+  const { data: allOrganization, isLoading } = useGetAllOrganizations({
+    onSuccess: (result: { organizations: Organization[] }) => setCurrentId(result.organizations[0].id),
+  });
+  console.log(allOrganization);
 
   useEffect(() => {
-    getAcc();
-  }, []);
+    const current = allOrganization?.organizations.find((organization) => organization.id === currentId);
+    if (current) {
+      setCurrrentOrganization(current);
+    }
+  }, [currentId]);
+
+  if (isLoading) {
+    return <></>;
+  }
+
+  if (!currrentOrganization) {
+    return <></>;
+  }
 
   return (
-    <Container accprice={accPrice ? accPrice : 0}>
+    <Container
+      accprice={currrentOrganization ? currrentOrganization.point : 0}
+      maxpoint={currrentOrganization ? currrentOrganization.maxPoint : 0}
+    >
       <div className="cup">
         <div className="badge">제주도청 주관 기부 캠페인</div>
         <div className="title">제주 환경 보호함쪄</div>
         <div className="link">
-          <ShadowButton onClick={() => navigate("/donation/submit")}>
+          <ShadowButton onClick={() => navigate(`/donation/${currrentOrganization.id}/submit`)}>
             포인트 기부하기
           </ShadowButton>
         </div>
-        <p className="target-price">{`목표 포인트 ${TARGET_POINT.toLocaleString()}`}</p>
+        <p className="target-price">{`목표 포인트 ${currrentOrganization.maxPoint.toLocaleString()}`}</p>
         <div className="liquor">
           <div className="point">
-            <p>{accPrice?.toLocaleString()}</p>
+            <p>{currrentOrganization!.point?.toLocaleString()}</p>
             <strong>POINT</strong>
           </div>
         </div>
@@ -52,11 +64,10 @@ const Donataion = () => {
   );
 };
 
-const Container = styled.div<{ accprice: number }>`
+const Container = styled.div<{ accprice: number; maxpoint: number }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* padding-top: 40px; */
 
   h1 {
     width: 100%;
@@ -152,7 +163,7 @@ const Container = styled.div<{ accprice: number }>`
       top: 0;
       width: 100%;
       height: 100%;
-      background-image: url("/images/rank-cup.png");
+      background-image: url('/images/rank-cup.png');
       z-index: 99;
     }
   }
@@ -178,9 +189,7 @@ const Container = styled.div<{ accprice: number }>`
       height: 150px;
     }
     100% {
-      height: calc(
-        140px + (2200px * ${(props) => props.accprice / TARGET_POINT})
-      );
+      height: calc(140px + (220px * ${(props) => props.accprice / props.maxpoint}));
     }
   }
 
@@ -191,9 +200,7 @@ const Container = styled.div<{ accprice: number }>`
     }
     100% {
       opacity: 1;
-      bottom: calc(
-        145px + (2200px * ${(props) => props.accprice / TARGET_POINT})
-      );
+      bottom: calc(145px + (220px * ${(props) => props.accprice / props.maxpoint}));
     }
   }
 
