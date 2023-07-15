@@ -1,22 +1,22 @@
 import { atom } from "recoil";
 import { commentDataType } from "../pages/StoreDetail/StoreDetail";
 
-export const refState = atom<HTMLTextAreaElement | null>({
-  key: "refState",
-  default: null,
+export const commentDataState = atom<commentDataType[]>({
+  key: "commentDataState",
+  default: [{ commentNickname: "", createdAt: "", content: "", commentId: 0 }],
 });
 
-export const renderingState = atom({
-  key: "renderingState",
-  default: false,
-});
-
-export const blogInputState = atom({
-  key: "blogInputState",
+export const inputState = atom({
+  key: "inputState",
   default: "",
 });
 
-export const commentDataState = atom<commentDataType[]>({
-  key: "commentDataState",
-  default: [],
+export const isEditState = atom({
+  key: "isEditState",
+  default: false,
+});
+
+export const currentCommentIdState = atom({
+  key: "currentCommentIdState",
+  default: 0,
 });

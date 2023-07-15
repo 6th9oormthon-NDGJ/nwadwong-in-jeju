@@ -1,8 +1,7 @@
-import { useRecoilValue } from "recoil";
-
-import styled from "styled-components";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { commentDataState } from "../../../recoil/commentState";
+import { useRecoilValue } from 'recoil';
+import styled from 'styled-components';
+import { commentDataState } from '../../../recoil/commentState';
+import DropDownBtn from './DropDownBtn';
 
 export function displayCreatedAt(created_at: string) {
   const milliSeconds: number =
@@ -17,9 +16,9 @@ export function displayCreatedAt(created_at: string) {
   } else {
     return (
       <span>
-        {created_at.split("T")[0]}&nbsp;&nbsp;
-        {created_at.split("T")[1].split(":")[0]}:
-        {created_at.split("T")[1].split(":")[1]}
+        {created_at.split('T')[0]}&nbsp;&nbsp;
+        {created_at.split('T')[1].split(':')[0]}:
+        {created_at.split('T')[1].split(':')[1]}
       </span>
     );
   }
@@ -27,11 +26,10 @@ export function displayCreatedAt(created_at: string) {
 
 export default function CommentList() {
   const commentData = useRecoilValue(commentDataState);
-  const reversedCommentData = [...commentData].reverse();
 
   return (
     <div>
-      {reversedCommentData?.map((item, idx) => {
+      {commentData?.map((item, idx) => {
         return (
           <CommentBox key={idx}>
             <CommentHeader>
@@ -43,7 +41,7 @@ export default function CommentList() {
                 </CreatedAt>
               </CommentLeft>
               <CommentRight>
-                <Delete />
+                <DropDownBtn commentObj={item} />
               </CommentRight>
             </CommentHeader>
             <CommentContent>{item.content}</CommentContent>
@@ -55,8 +53,7 @@ export default function CommentList() {
 }
 
 const CommentBox = styled.div`
-  padding: 1.25rem;
-  border-bottom: 1px solid gray;
+  padding: 25px 10px;
 `;
 
 const CommentLeft = styled.div`
@@ -72,27 +69,28 @@ const CommentRight = styled.div`
 `;
 
 const CommentHeader = styled.div`
-  padding-bottom: 1.25rem;
+  padding-bottom: 10px;
   display: flex;
   justify-content: space-between;
 `;
 
-const CommentUser = styled.div``;
+const CommentUser = styled.div`
+  color: #333338;
+  font-size: 16px;
+`;
 
 const DivideDot = styled.div`
-  padding: 0 0.5rem;
+  padding: 0 8px;
+  color: #90949b;
 `;
 
 const CreatedAt = styled.div`
-  color: gray;
-`;
-
-const Delete = styled(HiOutlineDotsHorizontal)`
-  width: 15px;
-  height: 15px;
+  color: #90949b;
+  font-size: 14px;
 `;
 
 const CommentContent = styled.div`
+  color: #333338;
   font-size: 14px;
   line-height: 22px;
 `;

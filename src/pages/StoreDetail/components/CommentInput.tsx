@@ -1,105 +1,153 @@
-import styled from "styled-components";
-import { BiSolidUser } from "react-icons/bi";
-import { useRef } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import useAxios from "../../../hooks/useAxios";
-import { blogInputState, commentDataState } from "../../../recoil/commentState";
-import { useParams } from "react-router-dom";
+import styled from 'styled-components';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import useAxios from '../../../hooks/useAxios';
+import {
+  inputState,
+  commentDataState,
+  isEditState,
+  currentCommentIdState,
+} from '../../../recoil/commentState';
+import { useParams } from 'react-router-dom';
 
 interface newCommenttype {
   cupStoreName: string;
   content: string;
-  createTime: string;
+  createdAt: string;
   commentNickname: string;
+  commentId: number;
 }
+
+type ButtonProps = {
+  isActive: boolean;
+};
 
 export default function CommentInput() {
   const [, , , fetchData] = useAxios();
   const params = useParams();
   const cupStoreId = params.id;
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
-  const inputRef = useRef<HTMLTextAreaElement | null>(null);
-  const [content, setContent] = useRecoilState(blogInputState);
-  const setCommentData = useSetRecoilState(commentDataState);
+  const [content, setContent] = useRecoilState(inputState);
+  const [commentData, setCommentData] = useRecoilState(commentDataState);
+  const currentCommentId = useRecoilValue(currentCommentIdState);
+  const [isEdit, setIsEdit] = useRecoilState(isEditState);
 
   const changeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
 
-  const clickHandler = () => {
+  const postHandler = () => {
+    if (content) {
+      fetchData({
+        url: '/api/comment',
+        method: 'POST',
+        headers: {
+          authorization: token,
+          'Content-Type': `application/json`,
+        },
+        data: { cupStoreId: cupStoreId, content: content },
+      }).then((el: newCommenttype) => {
+        setContent('');
+        if (el) {
+          setCommentData((prevData) => [
+            {
+              content: el.content,
+              createdAt: el.createdAt,
+              commentNickname: el.commentNickname,
+              commentId: el.commentId,
+            },
+            ...prevData,
+          ]);
+        }
+      });
+    }
+  };
+
+  const patchHandler = () => {
     fetchData({
-      url: "/api/comment",
-      method: "POST",
+      url: '/api/comment',
+      method: 'PATCH',
       headers: {
         authorization: token,
-        "Content-Type": `application/json`,
+        'Content-Type': `application/json`,
       },
-      data: { cupStoreId: cupStoreId, content: content },
+      data: { commentId: currentCommentId, content: content },
     }).then((el: newCommenttype) => {
-      setContent("");
+      setContent('');
+      const index = commentData.findIndex(
+        (obj) => obj.commentId === currentCommentId
+      );
       if (el) {
-        setCommentData((prevData) => [
-          ...prevData,
-          {
+        setCommentData((prevCommentData) => {
+          const updatedCommentData = [...prevCommentData];
+          updatedCommentData[index] = {
+            ...updatedCommentData[index],
             content: el.content,
-            createdAt: el.createTime,
-            commentNickname: el.commentNickname,
-          },
-        ]);
+          };
+          return updatedCommentData;
+        });
       }
+      setIsEdit(false);
     });
+  };
+
+  const enterEvent = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      isEdit ? patchHandler() : postHandler();
+    }
   };
 
   return (
     <CommentInputContainer>
-      <UserAvatar />
       <CommentInputPlace
         placeholder="댓글을 입력해 주세요."
         onChange={changeHandler}
-        ref={inputRef}
         value={content}
+        onKeyPress={enterEvent}
+        readOnly={!token}
       ></CommentInputPlace>
-      <SubmitButton onClick={clickHandler}>등록</SubmitButton>
+      <SubmitButton
+        onClick={isEdit ? patchHandler : postHandler}
+        disabled={!token}
+        isActive={Boolean(content)}
+      >
+        {isEdit ? '수정하기' : '작성하기'}
+      </SubmitButton>
     </CommentInputContainer>
   );
 }
 const CommentInputContainer = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-around;
-  border-bottom: 1px solid gray;
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
-`;
-
-const UserAvatar = styled(BiSolidUser)`
-  width: 25px;
-  height: 25px;
-  padding: 3px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0px 0px 5px -2px rgba(0, 0, 0, 0.3);
+  flex-direction: column;
+  align-items: flex-end;
 `;
 
 const CommentInputPlace = styled.textarea`
-  width: 75%;
-  padding-left: 10px;
-  padding-top: 10px;
-  border: none;
+  width: 100%;
+  height: 74px;
+  padding-left: 15px;
+  padding-top: 15px;
+  border: 0.85px solid #e1e1e8;
+  border-radius: 8px;
   outline: none;
   resize: none;
   font-family: inherit;
   background-color: transparent;
-  color: #bbbbbb;
+  color: #a1a1a1;
+  font-size: 14px;
 `;
 
-const SubmitButton = styled.button`
+const SubmitButton = styled.button<ButtonProps>`
+  width: 76px;
+  height: 30px;
+  margin-top: 5px;
   border: none;
-  background-color: transparent;
+  border-radius: 4px;
+  background-color: ${(props) => (props.isActive ? '#313641' : '#f0f0f5')};
+  font-size: 12px;
+  color: ${(props) => (props.isActive ? '#ffffff' : '#cdced6')};
+
   &:hover {
     cursor: pointer;
   }
