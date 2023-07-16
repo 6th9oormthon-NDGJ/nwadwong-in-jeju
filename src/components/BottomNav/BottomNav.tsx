@@ -4,7 +4,12 @@ import styled from 'styled-components';
 export default function BottomNav() {
   const { pathname } = useLocation();
 
-  if (['/login'].includes(pathname)) {
+  if (
+    ['/login'].includes(pathname) ||
+    pathname.includes('/detail') ||
+    pathname.includes('/uploadImage') ||
+    pathname.includes('/submit')
+  ) {
     return <></>;
   }
   return (
