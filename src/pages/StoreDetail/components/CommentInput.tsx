@@ -8,18 +8,16 @@ import {
   currentCommentIdState,
 } from '../../../recoil/commentState';
 import { useParams } from 'react-router-dom';
+import userState from '../../../recoil/userState';
 
-interface newCommenttype {
+interface newCommentType {
   cupStoreName: string;
   content: string;
   createdAt: string;
   commentNickname: string;
   commentId: number;
+  memberId: string;
 }
-
-type ButtonProps = {
-  isActive: boolean;
-};
 
 export default function CommentInput() {
   const [, , , fetchData] = useAxios();
@@ -27,6 +25,7 @@ export default function CommentInput() {
   const cupStoreId = params.id;
 
   const token = localStorage.getItem('token');
+  const user = useRecoilValue(userState);
 
   const [content, setContent] = useRecoilState(inputState);
   const [commentData, setCommentData] = useRecoilState(commentDataState);
@@ -47,15 +46,16 @@ export default function CommentInput() {
           'Content-Type': `application/json`,
         },
         data: { cupStoreId: cupStoreId, content: content },
-      }).then((el: newCommenttype) => {
+      }).then((result: newCommentType) => {
         setContent('');
-        if (el) {
+        if (result) {
           setCommentData((prevData) => [
             {
-              content: el.content,
-              createdAt: el.createdAt,
-              commentNickname: el.commentNickname,
-              commentId: el.commentId,
+              content: result.content,
+              createdAt: result.createdAt,
+              commentNickname: result.commentNickname,
+              commentId: result.commentId,
+              memberId: user?.id,
             },
             ...prevData,
           ]);
@@ -73,17 +73,17 @@ export default function CommentInput() {
         'Content-Type': `application/json`,
       },
       data: { commentId: currentCommentId, content: content },
-    }).then((el: newCommenttype) => {
+    }).then((result: newCommentType) => {
       setContent('');
       const index = commentData.findIndex(
         (obj) => obj.commentId === currentCommentId
       );
-      if (el) {
+      if (result) {
         setCommentData((prevCommentData) => {
           const updatedCommentData = [...prevCommentData];
           updatedCommentData[index] = {
             ...updatedCommentData[index],
-            content: el.content,
+            content: result.content,
           };
           return updatedCommentData;
         });
@@ -110,7 +110,7 @@ export default function CommentInput() {
       <SubmitButton
         onClick={isEdit ? patchHandler : postHandler}
         disabled={!token}
-        isActive={Boolean(content)}
+        $isActive={Boolean(content)}
       >
         {isEdit ? '수정하기' : '작성하기'}
       </SubmitButton>
@@ -138,15 +138,15 @@ const CommentInputPlace = styled.textarea`
   font-size: 14px;
 `;
 
-const SubmitButton = styled.button<ButtonProps>`
+const SubmitButton = styled.button<{ $isActive: boolean }>`
   width: 76px;
   height: 30px;
   margin-top: 5px;
   border: none;
   border-radius: 4px;
-  background-color: ${(props) => (props.isActive ? '#313641' : '#f0f0f5')};
+  background-color: ${(props) => (props.$isActive ? '#313641' : '#f0f0f5')};
   font-size: 12px;
-  color: ${(props) => (props.isActive ? '#ffffff' : '#cdced6')};
+  color: ${(props) => (props.$isActive ? '#ffffff' : '#cdced6')};
 
   &:hover {
     cursor: pointer;

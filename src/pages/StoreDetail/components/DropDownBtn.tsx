@@ -22,7 +22,6 @@ export default function DropDownBtn({ commentObj }: DropDownBtnProps) {
   const setIsEdit = useSetRecoilState(isEditState);
   const setCurrentCommentId = useSetRecoilState(currentCommentIdState);
   const [commentData, setCommentData] = useRecoilState(commentDataState);
-  const user = useRecoilValue(userState);
 
   const [, , , fetchData] = useAxios();
   const token = localStorage.getItem('token');
@@ -65,7 +64,6 @@ export default function DropDownBtn({ commentObj }: DropDownBtnProps) {
   };
 
   return (
-    // memberId 담겨서 오면 userState 의 id 랑 같을 때만 렌더링되도록 수정
     <div onMouseLeave={() => setIsBtnClicked(false)}>
       <EllipsisVertical onClick={() => setIsBtnClicked(!isBtnClicked)} />
       {isBtnClicked && (

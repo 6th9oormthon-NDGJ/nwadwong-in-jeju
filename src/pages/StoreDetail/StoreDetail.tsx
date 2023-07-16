@@ -21,6 +21,8 @@ export interface commentDataType {
   commentNickname: string;
   createdAt: string;
   content: string;
+  commentId: number;
+  memberId: string | undefined;
 }
 
 export default function StoreDetail() {
@@ -35,7 +37,10 @@ export default function StoreDetail() {
   function isOpenNow(hours: string) {
     const now = new Date();
     const currentHour = now.getHours();
-    if (Number(hours.split('~')[0]) < currentHour && currentHour < Number(hours.split('~')[1])) {
+    if (
+      Number(hours.split('~')[0]) < currentHour &&
+      currentHour < Number(hours.split('~')[1])
+    ) {
       return '운영중';
     } else {
       return '운영종료';
@@ -75,19 +80,11 @@ export default function StoreDetail() {
             <Hours>운영시간 {detail?.hours && displayTime(detail.hours)}</Hours>
           </StoreHours>
         </StoreInfo>
-        {/* <Rating>
-          <div>
-            <Star />
-            <Star />
-            <Star />
-            <Star />
-            <Star />
-          </div>
-          <RatingAverage>{detail?.averageRating}점</RatingAverage>
-        </Rating> */}
       </DetailHeader>
       <Comments />
-      <SubmitBtn onClick={() => navigate(`/uploadImage/${cupStoreId}`)}>반납 인증</SubmitBtn>
+      <SubmitBtn onClick={() => navigate(`/uploadImage/${cupStoreId}`)}>
+        반납 인증
+      </SubmitBtn>
     </>
   );
 }
