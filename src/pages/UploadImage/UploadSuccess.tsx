@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { userPointState } from "../../recoil/userPointState";
-import { useRecoilValue } from "recoil";
+import styled from 'styled-components';
+import { userPointState } from '../../recoil/userPointState';
+import { useRecoilValue } from 'recoil';
 
 export default function UploadSuccess() {
   const userPointData = useRecoilValue(userPointState);
@@ -9,9 +9,14 @@ export default function UploadSuccess() {
     <SuccessModal>
       <GainedPoint>
         <AlertBox>
-          <CupImage src="/images/uploadImage/cup.svg" />
-          <PointText>{userPointData.gainPoint} Point</PointText>
-          <AlertText>획득하셨습니다.</AlertText>
+          <img src="/images/uploadImage/cupSymbol.svg" />
+          <TextBox>
+            <PointText>
+              <p className="gainPoint">{userPointData.gainPoint}24 </p>
+              <p className="point">point</p>
+            </PointText>
+            <AlertText>적립되었습니다.</AlertText>
+          </TextBox>
         </AlertBox>
         <EllipseImg src="/images/uploadImage/successAlert.png" />
       </GainedPoint>
@@ -50,17 +55,32 @@ const AlertBox = styled.div`
   align-items: center;
 `;
 
-const CupImage = styled.img``;
+const TextBox = styled.div`
+  position: absolute;
+`;
 
-const PointText = styled.p`
-  font-family: Jeju Hallasan;
-  font-size: 40px;
-  line-height: 48px;
+const PointText = styled.div`
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 5px;
+
+  .gainPoint {
+    font-size: 38px;
+  }
+
+  .point {
+    font-size: 20px;
+    line-height: 36px;
+  }
 `;
 
 const AlertText = styled.p`
-  font-size: 20px;
-  line-height: 30px;
+  font-size: 14px;
+  color: #2b2d36;
+  display: flex;
+  justify-content: center;
 `;
 
 const EllipseImg = styled.img``;
