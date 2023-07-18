@@ -13,6 +13,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
 import { FaStar, FaStarHalf } from 'react-icons/fa';
 import Rating from './components/Rating';
+import PlainButton from '../../components/Button/PlainButton';
 
 export interface detailDataType {
   imageUrl: string;
@@ -129,16 +130,20 @@ export default function StoreDetail() {
             <UserActionArrow />
           </div>
         </RatingContainer>
-        <SubmitBtnBox>
-          <SubmitBtnLeft onClick={() => navigate(`/uploadImage/${cupStoreId}`)}>
-            기기 제보
-          </SubmitBtnLeft>
-          <SubmitBtnRight
-            onClick={() => navigate(`/uploadImage/${cupStoreId}`)}
-          >
-            반납 인증
-          </SubmitBtnRight>
-        </SubmitBtnBox>
+        <ButtonBox>
+          <PlainButton
+            width="half"
+            text="기기 제보"
+            event={() => navigate(`/report/${cupStoreId}`)}
+            style="transparent"
+          />
+          <PlainButton
+            width="half"
+            text="반납 인증"
+            event={() => navigate(`/uploadImage/${cupStoreId}`)}
+            style="default"
+          />
+        </ButtonBox>
       </DetailHeader>
       <Comments />
       {isRatingModalOpen && <Rating />}
@@ -272,36 +277,9 @@ const UserActionArrow = styled(FiChevronRight)`
   color: #a1a1a1;
 `;
 
-const SubmitBtnBox = styled.div`
+const ButtonBox = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 15px;
   margin-bottom: 45px;
-`;
-
-const SubmitBtnLeft = styled.button`
-  width: 48.5%;
-  height: 50px;
-  border: 1px solid #e1e2ea;
-  border-radius: 8px;
-  background-color: transparent;
-  color: #525463;
-  font-size: 16px;
-  font-weight: 500;
-  text-decoration: none;
-
-  &:hover {
-    cursor: pointer;
-    background-color: #e1e2ea;
-  }
-`;
-
-const SubmitBtnRight = styled(SubmitBtnLeft)`
-  border: none;
-  color: #000000;
-  background-color: #b4f3a8;
-
-  &:hover {
-    background-color: #a8e09d;
-  }
 `;

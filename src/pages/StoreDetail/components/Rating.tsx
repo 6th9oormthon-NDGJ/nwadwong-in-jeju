@@ -8,6 +8,7 @@ import {
 } from '../../../recoil/detailState';
 import useAxios from '../../../hooks/useAxios';
 import { useParams } from 'react-router-dom';
+import PlainButton from '../../../components/Button/PlainButton';
 
 export default function Rating() {
   const params = useParams();
@@ -23,6 +24,11 @@ export default function Rating() {
     setStarIndex(Number(num.toFixed(1)));
   };
 
+  const closeRatingModal = () => {
+    setIsRatingModalOpen(false);
+    setStarIndex(0);
+  };
+
   const ratingHandler = () => {
     fetchData({
       url: '/api/rating',
@@ -35,7 +41,7 @@ export default function Rating() {
     }).then((result: { averageRating: number }) => {
       setAverageRating(result.averageRating.toFixed(1));
       setIsRatingModalOpen(false);
-      console.log(result);
+      setStarIndex(0);
     });
   };
 
@@ -60,12 +66,30 @@ export default function Rating() {
           <p className="starIndex">{starIndex}.0</p>
           <p>/ 5.0</p>
         </RatingAverage>
-        <BtnBox>
-          <BtnLeft onClick={() => setIsRatingModalOpen(false)}>
-            취소하기
-          </BtnLeft>
-          <BtnRight onClick={() => ratingHandler()}>별점 등록</BtnRight>
-        </BtnBox>
+        <ButtonBox>
+          <PlainButton
+            width="half"
+            event={closeRatingModal}
+            text="취소하기"
+            style="transparent"
+          />
+          {starIndex === 0 ? (
+            <PlainButton
+              width="half"
+              event={ratingHandler}
+              text="별점 등록"
+              style="desactive"
+              disabled={true}
+            />
+          ) : (
+            <PlainButton
+              width="half"
+              event={ratingHandler}
+              text="별점 등록"
+              style="default"
+            />
+          )}
+        </ButtonBox>
       </BottomSheet>
     </RatingModal>
   );
@@ -86,10 +110,10 @@ const ModalBackground = styled.div`
   opacity: 90%;
   z-index: 100;
   position: relative;
-  animation-duration: 0.25s; //진행시간
-  animation-timing-function: ease-out; //처음엔 빨리나타다가 서서히 느려진다.
-  animation-name: fadeIn; //사용되는 트랜지션 효과이름
-  animation-fill-mode: forwards; //트랜지션효과가 나타난 이후 그대로 유지한다.
+  animation-duration: 0.25s;
+  animation-timing-function: ease-out;
+  animation-name: fadeIn;
+  animation-fill-mode: forwards;
 
   @keyframes fadeIn {
     from {
@@ -175,7 +199,7 @@ const RatingAverage = styled.div`
   }
 `;
 
-const BtnBox = styled.div`
+const ButtonBox = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 35px;
