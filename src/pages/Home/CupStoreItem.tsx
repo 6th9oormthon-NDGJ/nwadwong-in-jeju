@@ -20,14 +20,13 @@ const CupStoreItem = ({ cupStore }: Props) => {
   return (
     <Link to={`/detail/${cupStore.cupStoreId}`}>
       <Container>
-        <img
-          src={cupStore.imageUrl}
-          alt="store-thumbnail"
-        />
+        <img src={cupStore.imageUrl} alt="store-thumbnail" />
         <div className="cupstore-info">
           <h3 className="cupstore-name">{cupStore.name}</h3>
           <div className="cupstore-row">
-            <div className="is-open-badge">{isOpen ? '운영중' : '운영종료'}</div>
+            <div className="is-open-badge">
+              {isOpen ? '운영중' : '운영종료'}
+            </div>
           </div>
           <button
             className="return-btn"
@@ -48,8 +47,8 @@ const Container = styled.div`
   display: flex;
   gap: 20px;
   position: absolute;
-  bottom: 20px;
-  margin: 0 calc((100% - 335px) / 4);
+  bottom: 92px;
+  /* margin: 0 calc((100% - 335px) / 4); */
   width: 335px;
   height: 150px;
   padding: 15px;
@@ -57,6 +56,8 @@ const Container = styled.div`
   border-radius: 8px;
   border: 1px solid #36bf9f;
   z-index: 9999;
+  left: 50%;
+  transform: translate(-50%, 0%);
 
   img {
     height: 100%;

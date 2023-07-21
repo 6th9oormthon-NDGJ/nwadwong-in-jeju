@@ -30,8 +30,8 @@ export default function App() {
       <Header />
       <ContentContainer>
         <Outlet />
-        <BottomNav />
       </ContentContainer>
+      <BottomNav />
     </Container>
   );
 }
