@@ -1,16 +1,15 @@
 import styled from 'styled-components';
 import { HiOutlineEllipsisVertical } from 'react-icons/hi2';
 import useAxios from '../../../hooks/useAxios';
-import { commentDataType } from '../StoreDetail';
+import { commentDataType } from '../../StoreDetail/StoreDetail';
 import { useState } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   commentDataState,
   currentCommentIdState,
   inputState,
   isEditState,
 } from '../../../recoil/commentState';
-import userState from '../../../recoil/userState';
 
 interface DropDownBtnProps {
   commentObj: commentDataType;
@@ -105,8 +104,8 @@ const DropDownBox = styled.ul`
 `;
 
 const DropDownList = styled.li`
-  padding: 9px 12px;
-  font-size: 12px;
+  padding: 12px 14px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   color: gray;

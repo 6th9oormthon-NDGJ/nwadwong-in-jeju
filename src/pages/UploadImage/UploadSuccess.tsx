@@ -9,16 +9,16 @@ export default function UploadSuccess() {
     <SuccessModal>
       <GainedPoint>
         <AlertBox>
-          <img src="/images/uploadImage/cupSymbol.svg" />
+          <img src="/images/UploadImage/cupSymbol.svg" />
           <TextBox>
             <PointText>
-              <p className="gainPoint">{userPointData.gainPoint}24 </p>
+              <p className="gainPoint">{userPointData.gainPoint} </p>
               <p className="point">point</p>
             </PointText>
             <AlertText>적립되었습니다.</AlertText>
           </TextBox>
         </AlertBox>
-        <EllipseImg src="/images/uploadImage/successAlert.png" />
+        <EllipseImg src="/images/UploadImage/successAlert.png" />
       </GainedPoint>
     </SuccessModal>
   );

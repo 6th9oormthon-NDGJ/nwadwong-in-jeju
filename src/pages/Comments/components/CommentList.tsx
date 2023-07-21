@@ -59,7 +59,7 @@ const CommentHeader = styled.div`
 `;
 
 const CommentUser = styled.div`
-  color: #333338;
+  color: #90949b;
   font-size: 16px;
 `;
 
@@ -75,6 +75,6 @@ const CreatedAt = styled.div`
 
 const CommentContent = styled.div`
   color: #333338;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 22px;
 `;
