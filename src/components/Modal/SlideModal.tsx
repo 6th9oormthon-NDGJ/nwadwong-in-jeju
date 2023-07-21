@@ -25,7 +25,7 @@ export default function SlideModal({
 }: SlideModalProps) {
   const setIsSlideModalOpen = useSetRecoilState(modalState);
 
-  const closeRatingModal = (closeEvent: CloseEventType) => {
+  const closeModal = (closeEvent: CloseEventType) => {
     setIsSlideModalOpen(false);
     if (closeEvent) {
       closeEvent();
@@ -41,13 +41,13 @@ export default function SlideModal({
         <ButtonBox>
           <PlainButton
             width="half"
-            event={() => closeRatingModal(closeEvent)}
+            event={() => closeModal(closeEvent)}
             text="취소하기"
             style="transparent"
           />
           <PlainButton
             width="half"
-            event={() => closeRatingModal(buttonRightEvent)}
+            event={() => closeModal(buttonRightEvent)}
             text={buttonRightText}
             style={desactiveCondition ? 'desactive' : 'default'}
             disabled={desactiveCondition ? true : false}

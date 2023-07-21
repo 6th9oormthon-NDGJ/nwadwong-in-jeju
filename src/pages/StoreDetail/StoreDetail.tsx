@@ -6,13 +6,12 @@ import { commentDataState } from '../../recoil/commentState';
 import {
   averageRatingState,
   detailState,
-  ratingModalState,
+  modalState,
 } from '../../recoil/detailState';
-import Comments from './Comments';
+import Comments from '../Comments/Comments';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
 import { FaStar, FaStarHalf } from 'react-icons/fa';
-import Rating from './components/Rating';
 import PlainButton from '../../components/Button/PlainButton';
 
 export interface detailDataType {
@@ -44,8 +43,7 @@ export default function StoreDetail() {
   const [, , , fetchData] = useAxios();
 
   const [detail, setDetail] = useRecoilState(detailState);
-  const [isRatingModalOpen, setIsRatingModalOpen] =
-    useRecoilState(ratingModalState);
+  const setIsModalOpen = useSetRecoilState(modalState);
   const setCommentData = useSetRecoilState(commentDataState);
   const [averageRating, setAverageRating] = useRecoilState(averageRatingState);
 
@@ -71,7 +69,6 @@ export default function StoreDetail() {
       url: `/api/detail?cupStoreId=${cupStoreId}`,
       headers: {
         Authorization: token,
-        'Content-Type': `application/json`,
       },
     }).then((result: detailDataType) => {
       if (result) {
@@ -122,10 +119,7 @@ export default function StoreDetail() {
               </StarContainer>
             ))}
           </div>
-          <div
-            className="ratingRight"
-            onClick={() => setIsRatingModalOpen(true)}
-          >
+          <div className="ratingRight" onClick={() => setIsModalOpen(true)}>
             <RatingText>별점</RatingText>
             <UserActionArrow />
           </div>
@@ -146,7 +140,6 @@ export default function StoreDetail() {
         </ButtonBox>
       </DetailHeader>
       <Comments />
-      {isRatingModalOpen && <Rating />}
     </>
   );
 }
