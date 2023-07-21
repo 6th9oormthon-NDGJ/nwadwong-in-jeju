@@ -9,7 +9,8 @@ export default function BottomNav() {
     ['/login'].includes(pathname) ||
     pathname.includes('/detail') ||
     pathname.includes('/uploadImage') ||
-    pathname.includes('/submit')
+    pathname.includes('/submit') ||
+    pathname.includes('/report')
   ) {
     return <></>;
   }
