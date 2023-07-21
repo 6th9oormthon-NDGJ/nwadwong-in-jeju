@@ -47,6 +47,10 @@ const Button = styled.button<ButtonStyleProps>`
   font-size: 16px;
   font-weight: 500;
   text-decoration: none;
+  box-shadow: ${(props) =>
+    props.colors.backgroundColor === '#b4f3a8'
+      ? '0 0 10px 3px rgba(0, 0, 0, 0.05) inset'
+      : ''};
 
   &:hover {
     cursor: pointer;
