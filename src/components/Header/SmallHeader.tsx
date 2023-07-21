@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import { FaChevronLeft } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import styled from 'styled-components';
+import { FaChevronLeft } from 'react-icons/fa';
+import { useLocation } from 'react-router-dom';
 
 export default function SmallHeader() {
   const { pathname } = useLocation();
 
   const matchedTitle =
-    TITLE_DATA.find((item) => pathname.includes(item.path))?.title || "";
+    TITLE_DATA.find((item) => pathname.includes(item.path))?.title || '';
 
   return (
     <Header>
@@ -54,9 +54,10 @@ const Title = styled.p`
 const TITLE_DATA = [
   {
     id: 1,
-    path: "/uploadImage",
-    title: "반납 인증",
+    path: '/uploadImage',
+    title: '반납 인증',
   },
-  { id: 2, path: "/detail", title: "위치 상세보기" },
-  { id: 3, path: "/submit", title: "포인트 기부하기" },
+  { id: 2, path: '/detail', title: '위치 상세보기' },
+  { id: 3, path: '/submit', title: '포인트 기부하기' },
+  { id: 4, path: '/report', title: '기기 제보' },
 ];

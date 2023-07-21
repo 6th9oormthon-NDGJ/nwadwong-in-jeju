@@ -10,6 +10,7 @@ import Donataion from './pages/Donataion/Donataion';
 import DonataionInputPage from './pages/Donataion/DonataionInputPage';
 import StoreDetail from './pages/StoreDetail/StoreDetail';
 import Redirect from './pages/Redirect';
+import Report from './pages/Report/Report';
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
       { path: '/mypage', element: <MyPage /> },
       { path: '/donation', element: <Donataion /> },
       { path: '/donation/submit', element: <DonataionInputPage /> },
+      { path: '/report/:id', element: <Report /> },
     ],
   },
 ]);
