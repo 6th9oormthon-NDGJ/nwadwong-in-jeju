@@ -11,12 +11,12 @@ export const starIndexState = atom({
   default: 0,
 });
 
+export const modalState = atom({
+  key: 'modalState',
+  default: false,
+});
+
 export const averageRatingState = atom({
   key: 'averageRatingState',
   default: '0.0',
-});
-
-export const ratingModalState = atom({
-  key: 'ratingModalState',
-  default: false,
 });

@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import BottomNav from './components/BottomNav/BottomNav';
 import Header from './components/Header/Header';
 import Container from './components/Container/ScreenContainer';
@@ -7,22 +7,31 @@ import UploadSuccess from './pages/UploadImage/UploadSuccess';
 import { uploadSuccessState } from './recoil/uploadSuccessState';
 import { useRecoilValue } from 'recoil';
 import './App.css';
-import { ratingModalState } from './recoil/detailState';
-import Rating from './pages/StoreDetail/components/Rating';
+import { modalState } from './recoil/detailState';
+import Rating from './pages/Rating/RatingModal';
+import ReportModal from './pages/Report/components/ReportModal';
 
 export default function App() {
+  const { pathname } = useLocation();
   const isSuccess = useRecoilValue(uploadSuccessState);
-  const isRatingModalOpen = useRecoilValue(ratingModalState);
+  const isModalOpen = useRecoilValue(modalState);
+
+  const showModal =
+    pathname.includes('/detail') && isModalOpen ? (
+      <Rating />
+    ) : pathname.includes('/report') && isModalOpen ? (
+      <ReportModal />
+    ) : null;
 
   return (
     <Container>
       {isSuccess && <UploadSuccess />}
-      {isRatingModalOpen && <Rating />}
+      {showModal}
       <Header />
       <ContentContainer>
         <Outlet />
+        <BottomNav />
       </ContentContainer>
-      <BottomNav />
     </Container>
   );
 }
