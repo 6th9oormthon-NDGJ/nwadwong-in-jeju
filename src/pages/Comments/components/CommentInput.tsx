@@ -43,7 +43,6 @@ export default function CommentInput() {
         method: 'POST',
         headers: {
           authorization: token,
-          'Content-Type': `application/json`,
         },
         data: { cupStoreId: cupStoreId, content: content },
       }).then((result: newCommentType) => {
@@ -70,7 +69,6 @@ export default function CommentInput() {
       method: 'PATCH',
       headers: {
         authorization: token,
-        'Content-Type': `application/json`,
       },
       data: { commentId: currentCommentId, content: content },
     }).then((result: newCommentType) => {
@@ -106,7 +104,7 @@ export default function CommentInput() {
         value={content}
         onKeyPress={enterEvent}
         readOnly={!token}
-      ></CommentInputPlace>
+      />
       <SubmitButton
         onClick={isEdit ? patchHandler : postHandler}
         disabled={!token}
@@ -135,7 +133,11 @@ const CommentInputPlace = styled.textarea`
   font-family: inherit;
   background-color: transparent;
   color: #a1a1a1;
-  font-size: 14px;
+  font-size: 16px;
+
+  &::placeholder {
+    color: #a1a1a1;
+  }
 `;
 
 const SubmitButton = styled.button<{ $isActive: boolean }>`
@@ -145,7 +147,7 @@ const SubmitButton = styled.button<{ $isActive: boolean }>`
   border: none;
   border-radius: 4px;
   background-color: ${(props) => (props.$isActive ? '#313641' : '#f0f0f5')};
-  font-size: 12px;
+  font-size: 14px;
   color: ${(props) => (props.$isActive ? '#ffffff' : '#cdced6')};
 
   &:hover {
