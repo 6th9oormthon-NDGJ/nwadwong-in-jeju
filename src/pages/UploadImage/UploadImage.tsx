@@ -78,10 +78,10 @@ export default function UploadImage() {
       <UploadBtn $imagePreview={imagePreview ?? `#d9d9d9`}>
         <UploadLabel htmlFor="uploadButton">
           <ImagePreview
-            src="/images/uploadImage/default.png"
+            src="/images/UploadImage/default.png"
             $imagePreview={imagePreview}
           ></ImagePreview>
-          <AddIcon src="/images/uploadImage/addIcon.png"></AddIcon>
+          <AddIcon src="/images/UploadImage/addIcon.png"></AddIcon>
         </UploadLabel>
         <ImageInput
           type="file"
