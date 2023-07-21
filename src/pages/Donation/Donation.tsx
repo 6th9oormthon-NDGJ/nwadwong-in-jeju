@@ -2,17 +2,21 @@ import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import ShadowButton from '../../components/Button/ShadowButton';
 import { useNavigate } from 'react-router-dom';
-import { useGetAllOrganizations, useGetOrganizationById } from '../../api/organizationApi';
+import { useGetAllOrganizations } from '../../api/organizationApi';
 import { Organization } from '../../types/organization';
+import DonationList from './OrganizationList';
 
-const Donataion = () => {
+const Donation = () => {
   const navigate = useNavigate();
   const [currrentOrganization, setCurrrentOrganization] = useState<Organization | null>(null);
   const [currentId, setCurrentId] = useState<string>('');
   const { data: allOrganization, isLoading } = useGetAllOrganizations({
     onSuccess: (result: { organizations: Organization[] }) => setCurrentId(result.organizations[0].id),
   });
-  console.log(allOrganization);
+
+  const changeOrganizationHandler = (organization: Organization) => {
+    setCurrrentOrganization(organization);
+  };
 
   useEffect(() => {
     const current = allOrganization?.organizations.find((organization) => organization.id === currentId);
@@ -30,37 +34,46 @@ const Donataion = () => {
   }
 
   return (
-    <Container
-      accprice={currrentOrganization ? currrentOrganization.point : 0}
-      maxpoint={currrentOrganization ? currrentOrganization.maxPoint : 0}
-    >
-      <div className="cup">
-        <div className="badge">제주도청 주관 기부 캠페인</div>
-        <div className="title">제주 환경 보호함쪄</div>
-        <div className="link">
-          <ShadowButton onClick={() => navigate(`/donation/${currrentOrganization.id}/submit`)}>
-            포인트 기부하기
-          </ShadowButton>
-        </div>
-        <p className="target-price">{`목표 포인트 ${currrentOrganization.maxPoint.toLocaleString()}`}</p>
-        <div className="liquor">
-          <div className="point">
-            <p>{currrentOrganization!.point?.toLocaleString()}</p>
-            <strong>POINT</strong>
+    <>
+      <Container
+        accprice={currrentOrganization ? currrentOrganization.point * 30000 : 10000}
+        maxpoint={currrentOrganization ? currrentOrganization.maxPoint : 10000}
+      >
+        <div className="cup">
+          <div className="badge">{currrentOrganization.name} 주관 기부 캠페인</div>
+          <div className="title">{currrentOrganization.description}</div>
+          <div className="link">
+            <ShadowButton onClick={() => navigate(`/donation/${currrentOrganization.id}/submit`)}>
+              포인트 기부하기
+            </ShadowButton>
           </div>
+          <p className="target-price">{`목표 포인트 ${currrentOrganization.maxPoint.toLocaleString()}`}</p>
+          <div className="liquor">
+            <div className="point">
+              <p>{currrentOrganization.point?.toLocaleString()}</p>
+              <strong>POINT</strong>
+            </div>
+          </div>
+          <img
+            src="/images/indicator.png"
+            className="indigator"
+            alt="indigator"
+          />
+          <div className="rank-cup"></div>
         </div>
-        <img
-          src="/images/indicator.png"
-          className="indigator"
-          alt="indigator"
+
+        <div className="space">
+          <div className="background" />
+          <div className="background" />
+        </div>
+      </Container>
+      {allOrganization?.organizations && (
+        <DonationList
+          onClick={changeOrganizationHandler}
+          organizations={allOrganization.organizations}
         />
-        <div className="rank-cup"></div>
-      </div>
-      <div className="space">
-        <div className="background" />
-        <div className="background" />
-      </div>
-    </Container>
+      )}
+    </>
   );
 };
 
@@ -68,6 +81,7 @@ const Container = styled.div<{ accprice: number; maxpoint: number }>`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 20px;
 
   h1 {
     width: 100%;
@@ -83,13 +97,16 @@ const Container = styled.div<{ accprice: number; maxpoint: number }>`
 
     .badge {
       position: absolute;
-      width: 200px;
-      top: 40px;
-      left: 70px;
-      padding: 4px 8px;
+      width: fit-content;
+      top: 30px;
+      left: 50%;
+      padding: 8px 10px 6px 10px;
       border-radius: 10px;
-      border: 1px solid #e1e1e8;
+      border: 1px solid #c0c0c0;
+      background-color: #f0f0f0;
       text-align: center;
+      white-space: nowrap;
+      transform: translateX(-50%);
       z-index: 999;
     }
 
@@ -128,7 +145,7 @@ const Container = styled.div<{ accprice: number; maxpoint: number }>`
       right: 0;
       bottom: 10px;
       width: 300px;
-      height: 150px;
+      height: calc(140px + (220px * ${(props) => props.accprice / props.maxpoint}));
       background-color: #b4f3a8;
       z-index: 10;
       animation: fill 1s forwards;
@@ -151,7 +168,7 @@ const Container = styled.div<{ accprice: number; maxpoint: number }>`
 
     .indigator {
       position: absolute;
-      bottom: 148px;
+      bottom: calc(145px + (220px * ${(props) => props.accprice / props.maxpoint}));
       left: 69px;
       z-index: 999;
       animation: fillIndigator 1s forwards;
@@ -214,4 +231,4 @@ const Container = styled.div<{ accprice: number; maxpoint: number }>`
   }
 `;
 
-export default Donataion;
+export default Donation;

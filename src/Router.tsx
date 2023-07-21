@@ -6,8 +6,8 @@ import Login from './pages/Login/Login';
 import AuthCallback from './pages/Login/AuthCallback';
 import UploadImage from './pages/UploadImage/UploadImage';
 import MyPage from './pages/MyPage/MyPage';
-import Donataion from './pages/Donataion/Donataion';
-import DonataionInputPage from './pages/Donataion/DonataionInputPage';
+import Donataion from './pages/Donation/Donation';
+import DonataionInputPage from './pages/Donation/DonationInputPage';
 import StoreDetail from './pages/StoreDetail/StoreDetail';
 import Redirect from './pages/Redirect';
 
@@ -25,6 +25,7 @@ export const router = createBrowserRouter([
       { path: '/uploadImage/:id', element: <UploadImage /> },
       { path: '/mypage', element: <MyPage /> },
       { path: '/donation', element: <Donataion /> },
+      { path: '/donation/:id/submit', element: <DonataionInputPage /> },
       { path: '/donation/:id/submit', element: <DonataionInputPage /> },
     ],
   },
