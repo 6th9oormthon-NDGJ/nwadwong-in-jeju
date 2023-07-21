@@ -10,7 +10,7 @@ const MapHeader = () => {
         <p>{user?.nickname ? user.nickname : '방문객'}님,</p>
         <div className="second-line">
           <p>여기에</p>
-          <CupImage src="/images/uploadImage/cup.svg"></CupImage>
+          <CupImage src="/images/UploadImage/cup.svg"></CupImage>
           <p>놔뒁</p>
         </div>
       </div>
