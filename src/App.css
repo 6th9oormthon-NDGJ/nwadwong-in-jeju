@@ -1,5 +1,6 @@
 @import url(//fonts.googleapis.com/earlyaccess/jejuhallasan.css);
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
 .jejuhallasan * {
-  font-family: "Jeju Hallasan", cursive;
+  font-family: 'Jeju Hallasan', cursive;
 }
