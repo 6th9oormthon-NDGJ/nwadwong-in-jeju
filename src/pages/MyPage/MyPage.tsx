@@ -1,154 +1,110 @@
 import { useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
 import userState from '../../recoil/userState';
+import { useGetAllOrganizations } from '../../api/organizationApi';
+import ParticipateList from './ParticipateList';
+import OrganizationList from '../Donation/OrganizationList';
 
 const MyPage = () => {
-  const user = useRecoilValue(userState);
+  const user = useRecoilValue(userState)!;
+  const { data } = useGetAllOrganizations();
+
+  if (!user) {
+    return <></>;
+  }
 
   return (
     <Container>
-      {/* {user && (
-        <div className="user">
-          <div className="userProfileContainer">
-            <img src="/images/profile.png" className="profile" />
-            <p className="userName">
-              {user.nickname}님은 지금까지
-              <br />
-              {user.accumulatePoint} point 를 기부했어요.
-            </p>
+      <UserPoint>
+        <div className="user-nickname">
+          <h2>
+            <strong>{user.nickname}</strong> 님 감사합니다.
+          </h2>
+        </div>
+        <div className="user-point">
+          <div className="point-box">
+            <img src="/images/uploadImage/cup.svg" />
+            <div className="points">
+              <p className="point">잔여 포인트: {user.point.toLocaleString()}</p>
+              <p className="acc-point">누적 기부 포인트: {user.accumulatePoint.toLocaleString()}</p>
+            </div>
           </div>
-          <GainedPoint>
-            <AlertBox>
-              <CupImage src="/images/uploadImage/cup.svg" />
-              <div className="textContainer">
-                <SecondText>잔여 포인트: </SecondText>
-                <SecondText>{user.point}</SecondText>
-              </div>
-            </AlertBox>
-            <EllipseImg src="/images/uploadImage/successAlert.png" />
-          </GainedPoint>
         </div>
-      )} */}
-      {user && (
-        <div className="user">
-          <GainedPoint>
-            <AlertBox>
-              <div className="userProfileContainer">
-                <img
-                  src="/images/profile.png"
-                  className="profile"
-                />
-                <p className="userName">
-                  {user.nickname}님이
-                  <br />
-                  기부한 포인트: {user.accumulatePoint}
-                </p>
-              </div>
-              <div className="textContainer">
-                <SecondText>잔여: {user.point} points</SecondText>
-              </div>
-            </AlertBox>
-            <EllipseImg src="/images/uploadImage/successAlert.png" />
-          </GainedPoint>
-        </div>
-      )}
+      </UserPoint>
+      {data?.organizations && <ParticipateList organizations={data.organizations} />}
     </Container>
   );
 };
 
-const Container = styled.div`
-  /* padding-top: 40px; */
+const Container = styled.div``;
 
-  .userProfileContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+const UserPoint = styled.div`
+  position: sticky;
+  top: 0;
+  width: 100%;
+  padding: 15px 20px;
+  border-top: solid #858899 0.245px;
+  border-bottom: solid #858899 0.245px;
+  background-color: #fff;
 
-    .userName {
-      font-size: 24px;
-      font-weight: 700;
-    }
-  }
+  .user-nickname {
+    h2 {
+      color: var(--gray, #b3b3b3);
 
-  .user {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    border-radius: 8px;
+      font-family: Pretendard;
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: -0.1px;
 
-    .profile {
-      width: 100px;
-    }
-
-    .user-name {
       strong {
-        font-size: 28px;
-        font-weight: 600;
+        color: var(--point-2, #96b490);
+        font-family: Pretendard;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 36px; /* 150% */
+        letter-spacing: -0.3px;
       }
     }
   }
 
-  .point {
-    position: relative;
-    display: flex;
-    width: 100%;
-    justify-content: center;
+  .user-point {
+    width: fit-content;
+    margin: 36px auto;
 
-    .user-point {
-      position: absolute;
-      left: 50%;
-      bottom: 20%;
-      font-size: 12px;
-      color: #888888;
-      transform: translateX(-50%);
-    }
-    .user-acc {
-      position: absolute;
-      left: 50%;
-      bottom: 30%;
-      font-size: 20px;
-      transform: translateX(-50%);
-      font-weight: 600;
-    }
-    .cup {
-      position: absolute;
-      left: 50%;
-      bottom: 40%;
-      font-size: 20px;
-      transform: translateX(-50%);
+    .point-box {
+      display: flex;
+      align-items: center;
+      width: fit-content;
+
+      img {
+        height: 43px;
+        margin-right: 20px;
+      }
+
+      .points {
+        .point {
+          font-family: Pretendard;
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 27px; /* 150% */
+          letter-spacing: -0.1px;
+        }
+        .acc-point {
+          color: var(--gray, #b3b3b3);
+          font-feature-settings: 'clig' off, 'liga' off;
+
+          /* subtitle-1 */
+          font-family: Pretendard;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 22px; /* 157.143% */
+          letter-spacing: -0.1px;
+        }
+      }
     }
   }
 `;
-
-const GainedPoint = styled.div`
-  width: 100%;
-  height: 20%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const AlertBox = styled.div`
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  .textContainer {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
-const SecondText = styled.span`
-  font-size: 15px;
-`;
-
-const EllipseImg = styled.img``;
 
 export default MyPage;

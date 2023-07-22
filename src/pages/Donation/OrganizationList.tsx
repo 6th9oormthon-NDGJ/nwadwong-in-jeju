@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import { Organization } from '../../types/organization';
+import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
 interface Props {
   organizations: Organization[];
@@ -16,15 +17,10 @@ const OrganizationList = ({ organizations, onClick }: Props) => {
               onClick={() => onClick(organization)}
               key={organization.id}
             >
-              <ProgressBar percent={organization.point / organization.maxPoint}>
-                <div className="bar">
-                  <div className="bar-fill"></div>
-                </div>
-                <span className="point">
-                  <span className="current-point">{organization.point.toLocaleString()}</span>/
-                  <span className="max-point">{organization.maxPoint.toLocaleString()} POINT</span>
-                </span>
-              </ProgressBar>
+              <ProgressBar
+                point={organization.point}
+                maxPoint={organization.maxPoint}
+              />
               <div className="group">{organization.name}</div>
               <div className="title">{organization.description}</div>
             </OrganizationItem>
@@ -83,38 +79,6 @@ const OrganizationItem = styled.li`
     color: #b4f3a8;
     font-size: 12px;
     border: 1px solid #b4f3a8;
-  }
-`;
-
-const ProgressBar = styled.div<{ percent: number }>`
-  .bar {
-    width: 150px;
-    height: 6px;
-    margin-bottom: 6px;
-    background-color: #e6e6e6;
-    overflow: hidden;
-
-    .bar-fill {
-      width: ${({ percent }) => percent * 100}%;
-      height: 100%;
-      background-color: #b4f3a8;
-    }
-  }
-
-  .point {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    color: #fff;
-    font-size: 16px;
-
-    .current-point {
-      color: #fff;
-    }
-
-    .max-point {
-      font-size: 12px;
-    }
   }
 `;
 

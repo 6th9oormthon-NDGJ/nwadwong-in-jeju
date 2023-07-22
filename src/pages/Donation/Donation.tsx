@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGetAllOrganizations } from '../../api/organizationApi';
 import { Organization } from '../../types/organization';
 import DonationList from './OrganizationList';
+import Badge from '../../components/Badge/Badge';
 
 const Donation = () => {
   const navigate = useNavigate();
@@ -40,7 +41,9 @@ const Donation = () => {
         maxpoint={currentOrganization ? currentOrganization.maxPoint : 10000}
       >
         <div className="cup">
-          <div className="badge">{currentOrganization.name} 주관 기부 캠페인</div>
+          <div className="badge">
+            <Badge>{currentOrganization.name} 주관 기부 캠페인</Badge>
+          </div>
           <div className="title">{currentOrganization.description}</div>
           <div className="link">
             <ShadowButton onClick={() => navigate(`/donation/${currentOrganization.id}/submit`)}>
@@ -97,20 +100,8 @@ const Container = styled.div<{ accprice: number; maxpoint: number }>`
 
     .badge {
       position: absolute;
-      width: fit-content;
       top: 30px;
       left: 50%;
-      padding: 8px 10px 6px 10px;
-      border-radius: 8px;
-      border: 1px solid var(--light-gray-gray-300, #e1e1e8);
-      background: var(--light-gray-gray-400-transparent-8, rgba(205, 206, 214, 0.08));
-      font-family: Pretendard;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 18px;
-      text-align: center;
-      white-space: nowrap;
       transform: translateX(-50%);
       z-index: 999;
     }
