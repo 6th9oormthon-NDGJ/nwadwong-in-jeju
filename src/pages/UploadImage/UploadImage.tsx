@@ -78,10 +78,10 @@ export default function UploadImage() {
       <UploadBtn $imagePreview={imagePreview ?? `#d9d9d9`}>
         <UploadLabel htmlFor="uploadButton">
           <ImagePreview
-            src="/images/UploadImage/default.png"
+            src="/images/uploadImage/default.png"
             $imagePreview={imagePreview}
           ></ImagePreview>
-          <AddIcon src="/images/UploadImage/addIcon.png"></AddIcon>
+          <AddIcon src="/images/uploadImage/addIcon.png"></AddIcon>
         </UploadLabel>
         <ImageInput
           type="file"
@@ -158,10 +158,7 @@ const ImagePreview = styled.img<ImageInputProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  display: ${(props) =>
-    !props.$imagePreview || props.$imagePreview === '#d9d9d9'
-      ? 'block'
-      : 'none'};
+  display: ${(props) => (!props.$imagePreview || props.$imagePreview === '#d9d9d9' ? 'block' : 'none')};
 `;
 
 const AddIcon = styled.img`
