@@ -12,7 +12,10 @@ const OrganizationList = ({ organizations, onClick }: Props) => {
       <ul>
         {organizations.map((organization) => {
           return (
-            <OrganizationItem onClick={() => onClick(organization)}>
+            <OrganizationItem
+              onClick={() => onClick(organization)}
+              key={organization.id}
+            >
               <ProgressBar percent={organization.point / organization.maxPoint}>
                 <div className="bar">
                   <div className="bar-fill"></div>

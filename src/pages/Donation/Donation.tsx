@@ -8,20 +8,20 @@ import DonationList from './OrganizationList';
 
 const Donation = () => {
   const navigate = useNavigate();
-  const [currrentOrganization, setCurrrentOrganization] = useState<Organization | null>(null);
+  const [currentOrganization, setCurrentOrganization] = useState<Organization | null>(null);
   const [currentId, setCurrentId] = useState<string>('');
   const { data: allOrganization, isLoading } = useGetAllOrganizations({
     onSuccess: (result: { organizations: Organization[] }) => setCurrentId(result.organizations[0].id),
   });
 
   const changeOrganizationHandler = (organization: Organization) => {
-    setCurrrentOrganization(organization);
+    setCurrentOrganization(organization);
   };
 
   useEffect(() => {
     const current = allOrganization?.organizations.find((organization) => organization.id === currentId);
     if (current) {
-      setCurrrentOrganization(current);
+      setCurrentOrganization(current);
     }
   }, [currentId]);
 
@@ -29,35 +29,35 @@ const Donation = () => {
     return <></>;
   }
 
-  if (!currrentOrganization) {
+  if (!currentOrganization) {
     return <></>;
   }
 
   return (
     <>
       <Container
-        accprice={currrentOrganization ? currrentOrganization.point * 30000 : 10000}
-        maxpoint={currrentOrganization ? currrentOrganization.maxPoint : 10000}
+        accprice={currentOrganization ? currentOrganization.point * 30000 : 10000}
+        maxpoint={currentOrganization ? currentOrganization.maxPoint : 10000}
       >
         <div className="cup">
-          <div className="badge">{currrentOrganization.name} 주관 기부 캠페인</div>
-          <div className="title">{currrentOrganization.description}</div>
+          <div className="badge">{currentOrganization.name} 주관 기부 캠페인</div>
+          <div className="title">{currentOrganization.description}</div>
           <div className="link">
-            <ShadowButton onClick={() => navigate(`/donation/${currrentOrganization.id}/submit`)}>
+            <ShadowButton onClick={() => navigate(`/donation/${currentOrganization.id}/submit`)}>
               포인트 기부하기
             </ShadowButton>
           </div>
-          <p className="target-price">{`목표 포인트 ${currrentOrganization.maxPoint.toLocaleString()}`}</p>
+          <div className="ifo">{`목표 포인트 ${currentOrganization.maxPoint.toLocaleString()}`}</div>
           <div className="liquor">
             <div className="point">
-              <p>{currrentOrganization.point?.toLocaleString()}</p>
+              <p>{currentOrganization.point?.toLocaleString()}</p>
               <strong>POINT</strong>
             </div>
           </div>
           <img
             src="/images/indicator.png"
-            className="indigator"
-            alt="indigator"
+            className="indicator"
+            alt="indicator"
           />
           <div className="rank-cup"></div>
         </div>
@@ -101,9 +101,14 @@ const Container = styled.div<{ accprice: number; maxpoint: number }>`
       top: 30px;
       left: 50%;
       padding: 8px 10px 6px 10px;
-      border-radius: 10px;
-      border: 1px solid #c0c0c0;
-      background-color: #f0f0f0;
+      border-radius: 8px;
+      border: 1px solid var(--light-gray-gray-300, #e1e1e8);
+      background: var(--light-gray-gray-400-transparent-8, rgba(205, 206, 214, 0.08));
+      font-family: Pretendard;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 18px;
       text-align: center;
       white-space: nowrap;
       transform: translateX(-50%);

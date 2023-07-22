@@ -17,7 +17,8 @@ const Container = styled.button`
   font-weight: 600;
   background-color: #e7f6e5;
   border: none;
-  box-shadow: 0px 0px 13px -4px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--point, #b4f3a8);
+  box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 
   &:hover {
