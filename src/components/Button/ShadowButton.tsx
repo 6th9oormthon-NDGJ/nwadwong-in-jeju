@@ -14,6 +14,7 @@ const Container = styled.button`
   width: fit-content;
   padding: 14px 24px;
   font-size: 14px;
+  font-weight: 600;
   background-color: #e7f6e5;
   border: none;
   box-shadow: 0px 0px 13px -4px rgba(0, 0, 0, 0.3);

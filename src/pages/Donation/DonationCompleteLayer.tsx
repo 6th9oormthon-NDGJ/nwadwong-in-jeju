@@ -2,10 +2,12 @@ import { CSSProperties, useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 import donationCompleteState from '../../recoil/donationCompleteState';
+import { useNavigate } from 'react-router-dom';
 
 const DonationCompleteLayer = () => {
   const [turnOff, setTurnOff] = useState<boolean>(false);
   const setDonationComplete = useSetRecoilState(donationCompleteState);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
@@ -16,7 +18,10 @@ const DonationCompleteLayer = () => {
   return (
     <Container
       onClick={() => {
-        if (turnOff) setDonationComplete(false);
+        if (turnOff) {
+          setDonationComplete(false);
+          navigate('/donation');
+        }
       }}
     >
       <Cups

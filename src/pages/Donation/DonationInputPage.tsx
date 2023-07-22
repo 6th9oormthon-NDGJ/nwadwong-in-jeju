@@ -1,13 +1,15 @@
 import { styled } from 'styled-components';
 import ShadowButton from '../../components/Button/ShadowButton';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import userState from '../../recoil/userState';
 import { usePostDonation } from '../../api/organizationApi';
 import { checkValidToken } from '../../api/authApi';
-import DonationCompleteLayer from './DonationCompleteLayer';
 import donationCompleteState from '../../recoil/donationCompleteState';
+import Keypad from '../../components/Keypad/Keypad';
+
+const MAX_DONATION_POINT = 1000000;
 
 export default function DonationInputPage() {
   const [point, setPoint] = useState<number>(0);
@@ -18,9 +20,34 @@ export default function DonationInputPage() {
 
   const setDonationComplete = useSetRecoilState(donationCompleteState);
 
+  const clickKeyHandler = (value: string) => {
+    if (value === 'clear') {
+      return setPoint(0);
+    }
+
+    if (value === 'delete') {
+      return setPoint((prev) => {
+        const str = String(prev);
+        const res = str.slice(0, -1);
+        return Number(res);
+      });
+    }
+
+    const total = String(point) + value;
+
+    const combined = point ? Number(total) : Number(value);
+
+    if (combined > MAX_DONATION_POINT) {
+      setPoint(MAX_DONATION_POINT);
+      alert('최대 기부 금액은 1,000,000원입니다!');
+      return;
+    }
+
+    setPoint(combined);
+  };
+
   async function donationHandler() {
     if (!user) return;
-    setDonationComplete(true);
 
     // if (point < 1000) {
     //   alert('최소 입력 포인트는 1000 포인트입니다!');
@@ -37,6 +64,8 @@ export default function DonationInputPage() {
     //   return;
     // }
 
+    setDonationComplete(true);
+
     // mutate();
   }
 
@@ -52,15 +81,12 @@ export default function DonationInputPage() {
     <Container>
       <div className="post-donation">
         <input
-          onChange={(e) => setPoint(+e.target.value)}
-          type="number"
-          min={0}
-          max={user?.point}
-          step={100}
-          maxLength={10}
+          value={point.toLocaleString() + ' 포인트'}
+          disabled
         />
         <p className="current-point">총 {user?.point.toLocaleString()}원 보유</p>
         <ShadowButton onClick={donationHandler}>포인트 기부하기</ShadowButton>
+        <Keypad onClick={clickKeyHandler} />
       </div>
     </Container>
   );
@@ -72,7 +98,7 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    margin-top: 200px;
+    margin-top: 10vh;
 
     .current-point {
       color: #b3b3b3;
@@ -83,7 +109,9 @@ const Container = styled.div`
       height: 50px;
       border: none;
       border-bottom: 2px solid #000;
+      font-family: Pretendard;
       font-size: 24px;
+      font-weight: 600;
       text-align: center;
     }
   }
