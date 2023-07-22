@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
+import { styled, keyframes } from 'styled-components';
 import ShadowButton from '../../components/Button/ShadowButton';
 import { useNavigate } from 'react-router-dom';
 import { useGetAllOrganizations } from '../../api/organizationApi';
 import { Organization } from '../../types/organization';
 import DonationList from './OrganizationList';
 import Badge from '../../components/Badge/Badge';
+import Keyframes from 'styled-components/dist/models/Keyframes';
 
 const Donation = () => {
   const navigate = useNavigate();
   const [currentOrganization, setCurrentOrganization] = useState<Organization | null>(null);
-  const [currentId, setCurrentId] = useState<string>('');
+  const [percent, setPercent] = useState<number>(0);
   const { data: allOrganization, isLoading } = useGetAllOrganizations({
-    onSuccess: (result: { organizations: Organization[] }) => setCurrentId(result.organizations[0].id),
+    onSuccess: (result: { organizations: Organization[] }) => {
+      setCurrentOrganization(result.organizations[0]);
+    },
   });
 
   const changeOrganizationHandler = (organization: Organization) => {
@@ -20,11 +23,36 @@ const Donation = () => {
   };
 
   useEffect(() => {
-    const current = allOrganization?.organizations.find((organization) => organization.id === currentId);
-    if (current) {
-      setCurrentOrganization(current);
-    }
-  }, [currentId]);
+    if (!currentOrganization) return;
+
+    const percent = currentOrganization.point / currentOrganization.maxPoint;
+    console.log(percent);
+    setPercent(percent);
+  }, [currentOrganization]);
+
+  const fillLiquor = () => {
+    return keyframes`
+      0% {
+        height: 140px;
+      }
+      100% {
+        height: ${140 + percent * 200}px;
+      }
+    `;
+  };
+
+  const fillIndicator = () => {
+    return keyframes`
+      0% {
+        opacity: 0;
+        bottom: 148px;
+      }
+      100% {
+        opacity: 1;
+        bottom: ${148 + percent * 200}px;
+      }
+    `;
+  };
 
   if (isLoading) {
     return <></>;
@@ -37,8 +65,9 @@ const Donation = () => {
   return (
     <>
       <Container
-        accprice={currentOrganization ? currentOrganization.point * 30000 : 10000}
-        maxpoint={currentOrganization ? currentOrganization.maxPoint : 10000}
+        percent={0}
+        fill={fillLiquor}
+        fillIndicator={fillIndicator}
       >
         <div className="cup">
           <div className="badge">
@@ -80,7 +109,7 @@ const Donation = () => {
   );
 };
 
-const Container = styled.div<{ accprice: number; maxpoint: number }>`
+const Container = styled.div<{ percent: number; fill: () => Keyframes; fillIndicator: () => Keyframes }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -141,15 +170,16 @@ const Container = styled.div<{ accprice: number; maxpoint: number }>`
       right: 0;
       bottom: 10px;
       width: 300px;
-      height: calc(140px + (220px * ${(props) => props.accprice / props.maxpoint}));
+      height: calc(140px + (220px * ${(props) => props.percent}));
       background-color: #b4f3a8;
       z-index: 10;
-      animation: fill 1s forwards;
+      animation: 1s ${(props) => props.fill()} forwards;
 
       .point {
         position: absolute;
-        left: 135px;
-        bottom: 220px;
+        width: 100px;
+        left: 119px;
+        bottom: 230px;
         font-size: 20px;
         font-weight: 700;
         text-align: center;
@@ -162,12 +192,12 @@ const Container = styled.div<{ accprice: number; maxpoint: number }>`
       }
     }
 
-    .indigator {
+    .indicator {
       position: absolute;
-      bottom: calc(145px + (220px * ${(props) => props.accprice / props.maxpoint}));
+      bottom: calc(145px + (220px * ${(props) => props.percent}));
       left: 69px;
       z-index: 999;
-      animation: fillIndigator 1s forwards;
+      animation: ${(props) => props.fillIndicator()} 1s forwards;
     }
 
     .rank-cup {
@@ -199,21 +229,21 @@ const Container = styled.div<{ accprice: number; maxpoint: number }>`
 
   @keyframes fill {
     0% {
-      height: 150px;
+      height: 140px;
     }
     100% {
-      height: calc(140px + (220px * ${(props) => props.accprice / props.maxpoint}));
+      height: ${({ percent }) => 140 + percent * 260}px;
     }
   }
 
-  @keyframes fillIndigator {
+  @keyframes fillIndicator {
     0% {
       opacity: 0;
       bottom: 148px;
     }
     100% {
       opacity: 1;
-      bottom: calc(145px + (220px * ${(props) => props.accprice / props.maxpoint}));
+      bottom: ${({ percent }) => 140 + percent * 260}px;
     }
   }
 

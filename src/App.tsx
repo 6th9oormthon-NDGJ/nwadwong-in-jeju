@@ -29,7 +29,7 @@ export default function App() {
   return (
     <Container>
       {isSuccess && <UploadSuccess />}
-      {donationComplete && <DonationCompleteLayer />}
+      {donationComplete.complete && <DonationCompleteLayer />}
       {showModal}
 
       <Header />

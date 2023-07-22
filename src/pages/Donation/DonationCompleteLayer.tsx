@@ -1,12 +1,12 @@
-import { CSSProperties, useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useEffect, useState } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 import donationCompleteState from '../../recoil/donationCompleteState';
 import { useNavigate } from 'react-router-dom';
 
 const DonationCompleteLayer = () => {
   const [turnOff, setTurnOff] = useState<boolean>(false);
-  const setDonationComplete = useSetRecoilState(donationCompleteState);
+  const [donationComplete, setDonationComplete] = useRecoilState(donationCompleteState);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,8 +19,11 @@ const DonationCompleteLayer = () => {
     <Container
       onClick={() => {
         if (turnOff) {
-          setDonationComplete(false);
-          navigate('/donation');
+          setDonationComplete({
+            ...donationComplete,
+            complete: false,
+          });
+          navigate('/mypage');
         }
       }}
     >
@@ -34,11 +37,11 @@ const DonationCompleteLayer = () => {
       <Cups
         style={{
           right: '-50px',
-          bottom: '50px',
+          bottom: '-30px',
         }}
         delay={0.3}
       />
-      <CompleteCircle point={1000} />
+      <CompleteCircle point={donationComplete.point} />
     </Container>
   );
 };
