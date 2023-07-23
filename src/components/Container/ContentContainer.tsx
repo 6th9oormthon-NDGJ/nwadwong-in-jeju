@@ -30,7 +30,7 @@ export default function ContentContainer({ children }: { children: ReactNode }) 
 const ContentBox = styled.div`
   position: relative;
   min-width: 360px;
-  max-width: 414px;
+  max-width: 430px;
   width: 100%;
   flex-grow: 1;
   overflow: scroll;

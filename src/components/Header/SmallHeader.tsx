@@ -5,8 +5,7 @@ import { useLocation } from 'react-router-dom';
 export default function SmallHeader() {
   const { pathname } = useLocation();
 
-  const matchedTitle =
-    TITLE_DATA.find((item) => pathname.includes(item.path))?.title || '';
+  const matchedTitle = TITLE_DATA.find((item) => pathname.includes(item.path))?.title || '';
 
   return (
     <Header>
@@ -19,7 +18,6 @@ export default function SmallHeader() {
 }
 
 const Header = styled.div`
-  height: 113px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,7 +28,7 @@ const Header = styled.div`
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 64px 0 0 0;
+    padding: 32px 0;
   }
 `;
 

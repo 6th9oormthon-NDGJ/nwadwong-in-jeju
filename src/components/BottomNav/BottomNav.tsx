@@ -81,12 +81,9 @@ const NavContainer = styled.div<{ home: boolean }>`
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   z-index: 9999;
-  ${(props) =>
-    props.home
-      ? 'position: fixed; left: 50%; transform: translate(-50%, 0%); bottom: 0;'
-      : ''};
+  ${(props) => (props.home ? 'position: fixed; left: 50%; transform: translate(-50%, 0%); bottom: 0;' : '')};
   min-width: 360px;
-  max-width: 414px;
+  max-width: 430px;
   box-shadow: -1px -8px 15px 0px rgba(0, 0, 0, 0.07);
 
   a {

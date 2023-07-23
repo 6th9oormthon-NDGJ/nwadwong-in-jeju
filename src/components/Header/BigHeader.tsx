@@ -1,12 +1,10 @@
-import { styled } from "styled-components";
-import { useLocation } from "react-router-dom";
+import { styled } from 'styled-components';
+import { useLocation } from 'react-router-dom';
 
 export default function BigHeader() {
   const { pathname } = useLocation();
 
-  const matchedTitle =
-    TITLE_DATA_BIGHEADER.find((item) => pathname.includes(item.path))?.title ||
-    "";
+  const matchedTitle = TITLE_DATA_BIGHEADER.find((item) => pathname.includes(item.path))?.title || '';
   return (
     <Container>
       <div className="upper">
@@ -17,7 +15,6 @@ export default function BigHeader() {
 }
 
 const Container = styled.div`
-  padding-top: 44px;
   display: flex;
   flex-direction: column;
 
@@ -37,8 +34,8 @@ const Container = styled.div`
 const TITLE_DATA_BIGHEADER = [
   {
     id: 1,
-    path: "/mypage",
-    title: "내 정보",
+    path: '/mypage',
+    title: '내 정보',
   },
-  { id: 2, path: "/donation", title: "지금 바로, 수눌음" },
+  { id: 2, path: '/donation', title: '지금 바로, 수눌음' },
 ];

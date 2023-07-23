@@ -81,10 +81,10 @@ const Keypad = ({ onClick }: Props) => {
 const Key = styled.button`
   border: none;
   border-radius: 10px;
-  background-color: #f7f7f7;
+  background-color: transparent;
   font-family: Pretendard;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 14px;
 
   &.clear {
     font-size: 14px;
