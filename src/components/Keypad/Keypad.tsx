@@ -84,10 +84,11 @@ const Key = styled.button`
   background-color: transparent;
   font-family: Pretendard;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 16px;
 
   &.clear {
     font-size: 14px;
+    color: #b3b3b3;
   }
 `;
 

@@ -7,6 +7,7 @@ import { Organization } from '../../types/organization';
 import DonationList from './OrganizationList';
 import Badge from '../../components/Badge/Badge';
 import Keyframes from 'styled-components/dist/models/Keyframes';
+import DonationInfo from './DonationInfo';
 
 const Donation = () => {
   const navigate = useNavigate();
@@ -26,7 +27,6 @@ const Donation = () => {
     if (!currentOrganization) return;
 
     const percent = currentOrganization.point / currentOrganization.maxPoint;
-    console.log(percent);
     setPercent(percent);
   }, [currentOrganization]);
 
@@ -74,6 +74,9 @@ const Donation = () => {
             <Badge>{currentOrganization.name} 주관 기부 캠페인</Badge>
           </div>
           <div className="title">{currentOrganization.description}</div>
+          <div className="info">
+            <DonationInfo organization={currentOrganization} />
+          </div>
           <div className="link">
             <ShadowButton onClick={() => navigate(`/donation/${currentOrganization.id}/submit`)}>
               포인트 기부하기
@@ -129,7 +132,7 @@ const Container = styled.div<{ percent: number; fill: () => Keyframes; fillIndic
 
     .badge {
       position: absolute;
-      top: 30px;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 999;
@@ -138,12 +141,18 @@ const Container = styled.div<{ percent: number; fill: () => Keyframes; fillIndic
     .title {
       position: absolute;
       width: 100%;
-      top: 80px;
+      top: 60px;
       text-align: center;
       font-weight: 700;
-      font-size: 32px;
+      font-size: 28px;
       z-index: 999;
-      font-family: Jeju Hallasan;
+    }
+
+    .info {
+      position: absolute;
+      width: 100%;
+      top: 100px;
+      z-index: 999;
     }
 
     .target-price {
@@ -161,7 +170,7 @@ const Container = styled.div<{ percent: number; fill: () => Keyframes; fillIndic
       width: 100%;
       justify-content: center;
       position: absolute;
-      bottom: 20px;
+      bottom: 40px;
       z-index: 999;
     }
 

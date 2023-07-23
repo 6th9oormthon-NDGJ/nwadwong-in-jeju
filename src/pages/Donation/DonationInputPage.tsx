@@ -48,13 +48,13 @@ export default function DonationInputPage() {
   async function donationHandler() {
     if (!user) return;
 
-    if (point < 1000) {
-      alert('최소 입력 포인트는 1000 포인트입니다!');
+    if (point < 100) {
+      alert('최소 입력 포인트는 100 포인트입니다!');
       return;
     }
 
-    if (point % 1000 !== 0) {
-      alert('1000 포인트 단위의 포인트를 입력해주세요!');
+    if (point % 100 !== 0) {
+      alert('100 포인트 단위의 포인트를 입력해주세요!');
       return;
     }
 
