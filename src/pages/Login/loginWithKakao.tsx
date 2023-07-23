@@ -34,6 +34,8 @@ const Container = styled.button`
   border-radius: 8px;
   border: none;
   font-size: 16px;
+
+  z-index: 1;
 `;
 
 export default KakaoLoginButton;

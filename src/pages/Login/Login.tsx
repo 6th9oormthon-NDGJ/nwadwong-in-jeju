@@ -20,5 +20,5 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 150px 0;
+  padding: 15rem 0 10rem 0;
 `;

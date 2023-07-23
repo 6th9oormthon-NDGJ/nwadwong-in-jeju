@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import userState from '../../recoil/userState';
+import { styled } from 'styled-components';
 const { VITE_APP_KEY, VITE_REDIRECT_URI } = import.meta.env;
 
 const AuthCallback = () => {
@@ -61,7 +62,7 @@ const AuthCallback = () => {
 
   getToken();
 
-  return <div>로그인 중...</div>;
+  return <></>;
 };
 
 export default AuthCallback;
