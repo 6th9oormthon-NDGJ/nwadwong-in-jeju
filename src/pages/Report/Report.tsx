@@ -73,7 +73,7 @@ const ReportBox = styled.div`
 const ReportList = styled.label`
   padding: 0 20px;
   height: 78px;
-  border-top: 0.25px solid #858899;
+  border-top: 0.25px solid #e1e1e8;
   display: flex;
   justify-content: space-between;
   align-items: center;
