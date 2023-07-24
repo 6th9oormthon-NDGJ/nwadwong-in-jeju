@@ -19,7 +19,6 @@ const AuthCallback = () => {
       }
     );
     const { access_token } = await res.json();
-    console.log(access_token);
 
     if (access_token) {
       const res = await fetch(`https://kapi.kakao.com/v2/user/me`, {

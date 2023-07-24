@@ -16,8 +16,6 @@ export default function Rating() {
 
   const token = localStorage.getItem('token');
 
-  console.log(params);
-
   const ratingHandler = () => {
     fetchData({
       url: 'https://goormtone6th.com/rating',

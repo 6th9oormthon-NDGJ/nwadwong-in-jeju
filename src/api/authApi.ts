@@ -14,7 +14,6 @@ export async function checkValidToken() {
     }
 
     const user = await result.json();
-    console.log(user);
     return user;
   } catch (err) {
     alert('유효하지 않은 카카오 계정입니다!');

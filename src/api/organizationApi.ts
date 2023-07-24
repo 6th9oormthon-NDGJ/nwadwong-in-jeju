@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { Organization } from '../types/organization';
 
 export const getAllOrganizations = async () => {
-  const response = await (await fetch('https://goormtone6th.com//organization/list')).json();
+  const response = await (await fetch('https://goormtone6th.com/organization/list')).json();
   return response;
 };
 

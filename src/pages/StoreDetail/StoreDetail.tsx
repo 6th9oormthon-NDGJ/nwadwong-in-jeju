@@ -66,7 +66,6 @@ export default function StoreDetail() {
       },
     }).then((result: detailDataType) => {
       if (result) {
-        console.log(result);
         setDetail(result);
         setCommentData(result.comments);
         setAverageRating(result.averageRating.toFixed(1));
