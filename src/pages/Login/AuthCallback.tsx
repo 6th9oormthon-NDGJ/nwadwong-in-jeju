@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import userState from '../../recoil/userState';
-import { styled } from 'styled-components';
 const { VITE_APP_KEY, VITE_REDIRECT_URI } = import.meta.env;
 
 const AuthCallback = () => {
@@ -35,7 +34,7 @@ const AuthCallback = () => {
         id: String(id),
       });
       const { token } = await (
-        await fetch(`/api/oauth-redirect`, {
+        await fetch(`https://goormtone6th.com/oauth-redirect`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -47,7 +46,7 @@ const AuthCallback = () => {
       localStorage.setItem('token', token);
 
       const userData = await (
-        await fetch(`/api/oauth-test`, {
+        await fetch(`https://goormtone6th.com/oauth-test`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

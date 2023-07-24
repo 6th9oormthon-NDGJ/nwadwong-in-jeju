@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 import { CupStore } from '../../types/CupStore';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGetCupStoreDetailById } from '../../api/cupStoreApi';
+import machine from '/images/cup-store.png';
 
 interface Props {
   cupStore: CupStore;
@@ -10,8 +11,8 @@ interface Props {
 const CupStoreItem = ({ cupStore }: Props) => {
   const navigate = useNavigate();
   const today = new Date();
-  const hours = today.getHours();
-  const { data } = useGetCupStoreDetailById(String(cupStore.cupStoreId));
+  const hours = today.getHours() - 5;
+  const { data } = useGetCupStoreDetailById(String(cupStore?.cupStoreId));
 
   if (!cupStore) return <></>;
 
@@ -23,7 +24,7 @@ const CupStoreItem = ({ cupStore }: Props) => {
     <Link to={`/detail/${cupStore.cupStoreId}`}>
       <Container>
         <img
-          src={cupStore.imageUrl}
+          src={machine}
           alt="store-thumbnail"
         />
         <div className="cupstore-info">

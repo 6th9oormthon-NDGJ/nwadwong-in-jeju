@@ -78,6 +78,7 @@ const PointText = styled.div`
 
 const AlertText = styled.p`
   font-size: 14px;
+  font-weight: 500;
   color: #2b2d36;
   display: flex;
   justify-content: center;

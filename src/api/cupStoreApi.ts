@@ -4,13 +4,13 @@ import { Coord } from '../pages/Home/Home';
 import { detailDataType } from '../pages/StoreDetail/StoreDetail';
 
 export const getCupStoreDetailByID = async (id: string) => {
-  const response = await (await fetch(`/api/detail?cupStoreId=${id}`)).json();
+  const response = await (await fetch(`https://goormtone6th.com/detail?cupStoreId=${id}`)).json();
   return response;
 };
 
 export const getCupStoreByCoord = async (coord: Coord, distance: number) => {
   const response = await (
-    await fetch(`/api/map/search?lat=${coord.lat}&lng=${coord.lng}&searchBoundary=${distance}`)
+    await fetch(`https://goormtone6th.com/map/search?lat=${coord.lat}&lng=${coord.lng}&searchBoundary=${distance}`)
   ).json();
   return response;
 };

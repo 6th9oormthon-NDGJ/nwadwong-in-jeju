@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
 import { FaStar, FaStarHalf } from 'react-icons/fa';
 import PlainButton from '../../components/Button/PlainButton';
+import machine from '/images/cup-store.png';
 
 export interface detailDataType {
   imageUrl: string;
@@ -46,7 +47,7 @@ export default function StoreDetail() {
   function isOpenNow(hours: string) {
     const now = new Date();
     const currentHour = now.getHours();
-    if (Number(hours.split('~')[0]) < currentHour && currentHour < Number(hours.split('~')[1])) {
+    if (Number(hours.split('~')[0]) < currentHour && currentHour - 5 < Number(hours.split('~')[1])) {
       return '운영중';
     } else {
       return '운영종료';
@@ -59,7 +60,7 @@ export default function StoreDetail() {
 
   useEffect(() => {
     fetchData({
-      url: `/api/detail?cupStoreId=${cupStoreId}`,
+      url: `https://goormtone6th.com/detail?cupStoreId=${cupStoreId}`,
       headers: {
         Authorization: token,
       },
@@ -76,7 +77,7 @@ export default function StoreDetail() {
   return (
     <>
       <ThumbnailBox>
-        <ThumbnailImage src={detail?.imageUrl}></ThumbnailImage>
+        <ThumbnailImage src={machine}></ThumbnailImage>
       </ThumbnailBox>
       <DetailHeader>
         <StoreInfo>

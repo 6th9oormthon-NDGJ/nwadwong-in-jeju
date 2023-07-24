@@ -56,7 +56,7 @@ export default function UploadImage() {
       setFileBase64(base64Result);
 
       fetchData({
-        url: '/api/upload-image',
+        url: 'https://goormtone6th.com/upload-image',
         method: 'POST',
         headers: {
           Authorization: token,
@@ -69,8 +69,7 @@ export default function UploadImage() {
           setTimeout(() => {
             setIsSuccess(false);
             setIsModalOpen(true);
-          }, 2000);
-          setImagePreview(null);
+          }, 1500);
           setFileBase64('');
         }
       });
@@ -85,7 +84,7 @@ export default function UploadImage() {
             src="/images/uploadImage/default.png"
             $imagePreview={imagePreview}
           ></ImagePreview>
-          <AddIcon src="/images/uploadImage/addIcon.png"></AddIcon>
+          {!imagePreview && <AddIcon src="/images/uploadImage/addIcon.png"></AddIcon>}
         </UploadLabel>
         <ImageInput
           type="file"

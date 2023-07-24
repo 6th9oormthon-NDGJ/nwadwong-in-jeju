@@ -61,7 +61,7 @@ const Donation = () => {
     return <></>;
   }
 
-  const DUMMY_DESCRIPTION = ['트래쉬 목마 캠페인', '청정 제주, 다회용 회수', '탄소 배출 감축'];
+  const DUMMY_DESCRIPTION = ['플라스틱 제로 섬, 제주', '청정 제주, 다회용 회수', '탄소 배출 감축'];
 
   allOrganization?.organizations.forEach((organization, idx) => {
     organization.description = DUMMY_DESCRIPTION[idx];

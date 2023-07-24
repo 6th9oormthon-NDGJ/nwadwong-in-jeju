@@ -1,7 +1,7 @@
 export async function checkValidToken() {
   try {
     const token = localStorage.getItem('token');
-    const result = await fetch(`/api/oauth-test`, {
+    const result = await fetch(`https://goormtone6th.com/oauth-test`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

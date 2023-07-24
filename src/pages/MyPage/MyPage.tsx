@@ -3,7 +3,6 @@ import { styled } from 'styled-components';
 import userState from '../../recoil/userState';
 import { useGetAllOrganizations } from '../../api/organizationApi';
 import ParticipateList from './ParticipateList';
-import OrganizationList from '../Donation/OrganizationList';
 
 const MyPage = () => {
   const user = useRecoilValue(userState)!;

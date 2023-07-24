@@ -17,7 +17,7 @@ const Return = () => {
             const reader = new FileReader();
             reader.readAsDataURL(e.target.files![0]);
             reader.onload = async () => {
-              const req = await fetch('/api/upload-image', {
+              const req = await fetch('https://goormtone6th.com/upload-image', {
                 method: 'POST',
                 headers: {
                   Authorization: localStorage.getItem('token')!,

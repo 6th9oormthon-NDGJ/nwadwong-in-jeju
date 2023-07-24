@@ -15,7 +15,7 @@ export default function ReportModal() {
 
   const reportHandler = () => {
     fetchData({
-      url: '/api/report',
+      url: 'https://goormtone6th.com/report',
       method: 'POST',
       headers: {
         Authorization: token,

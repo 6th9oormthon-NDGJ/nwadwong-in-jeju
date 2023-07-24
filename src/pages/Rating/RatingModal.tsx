@@ -20,7 +20,7 @@ export default function Rating() {
 
   const ratingHandler = () => {
     fetchData({
-      url: '/api/rating',
+      url: 'https://goormtone6th.com/rating',
       method: 'POST',
       headers: {
         Authorization: token,

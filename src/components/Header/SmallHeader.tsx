@@ -1,16 +1,18 @@
 import styled from 'styled-components';
 import { FaChevronLeft } from 'react-icons/fa';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function SmallHeader() {
   const { pathname } = useLocation();
+
+  const navigate = useNavigate();
 
   const matchedTitle = TITLE_DATA.find((item) => pathname.includes(item.path))?.title || '';
 
   return (
     <Header>
       <div className="title">
-        <BackIcon onClick={() => window.history.back()} />
+        <BackIcon onClick={() => navigate('/home')} />
         <Title>{matchedTitle}</Title>
       </div>
     </Header>
