@@ -4,19 +4,19 @@ const SmileLogo = () => {
   return (
     <Container>
       <img
-        src="/logo/cup.png"
-        alt="cup"
-        className="cup"
+        src="/logo/login-logo.png"
+        alt="logo"
+        className="logo"
       />
+      <p>
+        컵 반납 후 받은 포인트로 기부까지,
+        <br />
+        <strong>함께 만들어가는 깨끗한 제주</strong>
+      </p>
       <img
-        src="/logo/smile.png"
-        alt="smile"
-        className="smile"
-      />
-      <img
-        src="/logo/title.png"
-        alt="title"
-        className="title"
+        src="/images/login/cups.png"
+        alt="cups"
+        className="cups"
       />
     </Container>
   );
@@ -24,26 +24,39 @@ const SmileLogo = () => {
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  position: relative;
-  width: 200px;
+  align-items: center;
+  width: 100%;
 
-  .cup {
-    animation: appearFromBottom 1s;
-  }
-
-  .smile {
-    position: absolute;
-    top: 80px;
-    transform: scale(0);
-    animation: appearSmile 0.8s 0.8s forwards;
-  }
-
-  .title {
-    position: absolute;
-    top: 230px;
+  p {
     opacity: 0;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.1px;
+    text-align: center;
+    color: #2b2d36;
     animation: appearFromBottom 1s 0.3s forwards;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  .logo {
+    width: 187px;
+    margin-bottom: 24px;
+    animation: appearFromBottom 1s forwards;
+  }
+
+  .cups {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    animation: appearCup 1s forwards;
   }
 
   @keyframes appearFromBottom {
@@ -57,15 +70,15 @@ const Container = styled.div`
     }
   }
 
-  @keyframes appearSmile {
+  @keyframes appearCup {
     0% {
-      transform: scale(0);
+      transform: translateY(300px);
     }
-    80% {
-      transform: scale(1.1);
+    70% {
+      transform: translateY(0px);
     }
     100% {
-      transform: scale(1);
+      transform: translateY(20px);
     }
   }
 `;

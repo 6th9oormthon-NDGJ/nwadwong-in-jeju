@@ -1,11 +1,7 @@
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import {
-  averageRatingState,
-  modalState,
-  starIndexState,
-} from '../../recoil/detailState';
+import { averageRatingState, modalState, starIndexState } from '../../recoil/detailState';
 import useAxios from '../../hooks/useAxios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import RatingContent from './components/RatingContent';
 import SlideModal from '../../components/Modal/SlideModal';
 
@@ -16,8 +12,11 @@ export default function Rating() {
   const [starIndex, setStarIndex] = useRecoilState(starIndexState);
   const setIsRatingModalOpen = useSetRecoilState(modalState);
   const setAverageRating = useSetRecoilState(averageRatingState);
+  const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
+
+  console.log(params);
 
   const ratingHandler = () => {
     fetchData({
@@ -31,6 +30,8 @@ export default function Rating() {
     }).then((result: { averageRating: number }) => {
       setAverageRating(result.averageRating.toFixed(1));
       setIsRatingModalOpen(false);
+      navigate(`/detail/${params.id}`);
+
       setStarIndex(0);
     });
   };

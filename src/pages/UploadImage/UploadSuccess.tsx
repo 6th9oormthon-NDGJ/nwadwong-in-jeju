@@ -26,7 +26,7 @@ export default function UploadSuccess() {
 
 const SuccessModal = styled.div`
   min-width: 360px;
-  max-width: 414px;
+  max-width: 430px;
   width: 100%;
   height: 100%;
   position: absolute;

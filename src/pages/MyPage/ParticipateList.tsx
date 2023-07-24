@@ -85,6 +85,7 @@ const OrganizationItem = styled.li`
       display: flex;
       gap: 5px;
       margin-bottom: 10px;
+      color: #525463;
     }
 
     .title {
@@ -98,7 +99,7 @@ const OrganizationItem = styled.li`
   }
 
   .smile {
-    height: 100px;
+    height: 70px;
     aspect-ratio: 1/1;
   }
 `;

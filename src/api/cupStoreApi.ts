@@ -1,6 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { CupStore } from '../types/CupStore';
 import { Coord } from '../pages/Home/Home';
+import { detailDataType } from '../pages/StoreDetail/StoreDetail';
+
+export const getCupStoreDetailByID = async (id: string) => {
+  const response = await (await fetch(`/api/detail?cupStoreId=${id}`)).json();
+  return response;
+};
 
 export const getCupStoreByCoord = async (coord: Coord, distance: number) => {
   const response = await (
@@ -10,12 +16,12 @@ export const getCupStoreByCoord = async (coord: Coord, distance: number) => {
 };
 
 export const useGetCupStoreByCoord = (coord: Coord, distance: number, options?: object) => {
-  return useQuery<{ cupStores: CupStore[]; size: number }>(
-    ['cupStores'],
-    () => getCupStoreByCoord(coord, distance),
-    {
-      enabled: false,
-      ...options,
-    }
-  );
+  return useQuery<{ cupStores: CupStore[]; size: number }>(['cupStores'], () => getCupStoreByCoord(coord, distance), {
+    enabled: false,
+    ...options,
+  });
+};
+
+export const useGetCupStoreDetailById = (id: string, options?: object) => {
+  return useQuery<detailDataType>(['cupStoreDetail', id], () => getCupStoreDetailByID(id), options);
 };

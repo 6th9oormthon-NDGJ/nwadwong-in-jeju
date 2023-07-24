@@ -5,8 +5,7 @@ import { useLocation } from 'react-router-dom';
 export default function SmallHeader() {
   const { pathname } = useLocation();
 
-  const matchedTitle =
-    TITLE_DATA.find((item) => pathname.includes(item.path))?.title || '';
+  const matchedTitle = TITLE_DATA.find((item) => pathname.includes(item.path))?.title || '';
 
   return (
     <Header>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 import donationCompleteState from '../../recoil/donationCompleteState';
 import { useNavigate } from 'react-router-dom';
@@ -23,24 +23,11 @@ const DonationCompleteLayer = () => {
             ...donationComplete,
             complete: false,
           });
-          navigate('/mypage');
+          navigate('/donation');
         }
       }}
     >
-      <Cups
-        style={{
-          left: '-50px',
-          bottom: '-20px',
-        }}
-        delay={0}
-      />
-      <Cups
-        style={{
-          right: '-50px',
-          bottom: '-30px',
-        }}
-        delay={0.3}
-      />
+      <Cups />
       <CompleteCircle point={donationComplete.point} />
     </Container>
   );
@@ -64,17 +51,9 @@ const CompleteCircle = ({ point }: { point: number }) => {
   );
 };
 
-interface Props {
-  style: { [key: string]: string };
-  delay: number;
-}
-
-const Cups = ({ style, delay }: Props) => {
+const Cups = () => {
   return (
-    <CupsContainer
-      style={style}
-      delay={delay}
-    >
+    <CupsContainer>
       <img
         src="/images/donation/cup_group.png"
         alt="cup"
@@ -83,11 +62,12 @@ const Cups = ({ style, delay }: Props) => {
   );
 };
 
-const CupsContainer = styled.div<{ delay: number }>`
+const CupsContainer = styled.div`
   position: absolute;
-  width: 70%;
+  bottom: 0;
+  width: 100%;
   transform: translateY(300px);
-  animation: appearCup 1s forwards ${({ delay }) => `${delay}s`};
+  animation: appearCup 1s forwards;
 
   img {
     width: 100%;
@@ -98,17 +78,17 @@ const CupsContainer = styled.div<{ delay: number }>`
       transform: translateY(300px);
     }
     70% {
-      transform: translateY(-20px);
+      transform: translateY(0px);
     }
     100% {
-      transform: translateY(0);
+      transform: translateY(20px);
     }
   }
 `;
 
 const Container = styled.div`
   min-width: 360px;
-  max-width: 414px;
+  max-width: 430px;
   width: 100%;
   height: 100%;
   position: absolute;
