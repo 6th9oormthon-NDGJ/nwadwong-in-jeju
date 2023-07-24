@@ -6,8 +6,31 @@ import { useGetAllOrganizations } from '../../api/organizationApi';
 import { Organization } from '../../types/organization';
 import DonationList from './OrganizationList';
 import Badge from '../../components/Badge/Badge';
-import Keyframes from 'styled-components/dist/models/Keyframes';
 import DonationInfo from './DonationInfo';
+
+const fillLiquor = (percent: number) => {
+  return keyframes`
+    0% {
+      height: 109px;
+    }
+    100% {
+      height: ${109 + percent * 160}px;
+    }
+  `;
+};
+
+const fillindicator = (percent: number) => {
+  return keyframes`
+    0% {
+      opacity: 0;
+      bottom: 115px;
+    }
+    100% {
+      opacity: 1;
+      bottom: ${115 + percent * 160}px;
+    }
+  `;
+};
 
 const Donation = () => {
   const navigate = useNavigate();
@@ -28,30 +51,6 @@ const Donation = () => {
     const percent = currentOrganization.point / currentOrganization.maxPoint;
     setPercent(percent);
   }, [currentOrganization]);
-
-  const fillLiquor = () => {
-    return keyframes`
-      0% {
-        height: 109px;
-      }
-      100% {
-        height: ${109 + percent * 160}px;
-      }
-    `;
-  };
-
-  const fillIndicator = () => {
-    return keyframes`
-      0% {
-        opacity: 0;
-        bottom: 115px;
-      }
-      100% {
-        opacity: 1;
-        bottom: ${115 + percent * 160}px;
-      }
-    `;
-  };
 
   if (isLoading) {
     return <></>;
@@ -76,11 +75,7 @@ const Donation = () => {
           currentOrganizationId={currentOrganization.id}
         />
       )}
-      <Container
-        percent={0}
-        fill={fillLiquor}
-        fillIndicator={fillIndicator}
-      >
+      <Container percent={percent}>
         <div className="cup">
           <div className="badge">
             <Badge>{currentOrganization.name} 주관 기부 캠페인</Badge>
@@ -118,7 +113,7 @@ const Donation = () => {
   );
 };
 
-const Container = styled.div<{ percent: number; fill: () => Keyframes; fillIndicator: () => Keyframes }>`
+const Container = styled.div<{ percent: number }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -188,7 +183,7 @@ const Container = styled.div<{ percent: number; fill: () => Keyframes; fillIndic
       height: calc(140px + (220px * ${(props) => props.percent}));
       background-color: #b4f3a8;
       z-index: 10;
-      animation: 1s ${(props) => props.fill()} forwards;
+      animation: 1s ${({ percent }) => fillLiquor(percent)} forwards;
 
       .point {
         position: absolute;
@@ -213,7 +208,7 @@ const Container = styled.div<{ percent: number; fill: () => Keyframes; fillIndic
       bottom: calc(145px + (220px * ${(props) => props.percent}));
       left: 87px;
       z-index: 999;
-      animation: ${(props) => props.fillIndicator()} 1s forwards;
+      animation: ${({ percent }) => fillindicator(percent)} 1s forwards;
     }
 
     .rank-cup {

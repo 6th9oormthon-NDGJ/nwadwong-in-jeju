@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import App from './App';
 import NotFound from './pages/NotFound/NotFound';
 import Home from './pages/Home/Home';
@@ -9,7 +9,6 @@ import MyPage from './pages/MyPage/MyPage';
 import Donation from './pages/Donation/Donation';
 import DonationInputPage from './pages/Donation/DonationInputPage';
 import StoreDetail from './pages/StoreDetail/StoreDetail';
-import Redirect from './pages/Redirect';
 import Report from './pages/Report/Report';
 
 export const router = createBrowserRouter([
@@ -18,7 +17,7 @@ export const router = createBrowserRouter([
     element: <App />,
     errorElement: <NotFound />,
     children: [
-      { index: true, element: <Redirect /> },
+      { index: true, element: <Navigate to="/home" /> },
       { path: '/home', element: <Home /> },
       { path: '/login', element: <Login /> },
       { path: '/login/auth', element: <AuthCallback /> },

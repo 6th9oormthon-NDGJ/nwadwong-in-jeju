@@ -15,7 +15,7 @@ export default function BottomNav() {
     return <></>;
   }
   return (
-    <NavContainer home={home}>
+    <NavContainer home={home.toString()}>
       <NavLink
         className={({ isActive }) => (isActive ? 'active' : '')}
         to={'/donation'}
@@ -71,7 +71,7 @@ export default function BottomNav() {
   );
 }
 
-const NavContainer = styled.div<{ home: boolean }>`
+const NavContainer = styled.div<{ home: string }>`
   display: flex;
   justify-content: space-around;
   align-items: center;
