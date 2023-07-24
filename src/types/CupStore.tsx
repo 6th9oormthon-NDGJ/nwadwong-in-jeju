@@ -1,6 +1,6 @@
 export interface CupStore {
   name: string;
-  starRaiting: number;
+  starRating: number;
   imageUrl: string;
   cupStoreId: number;
   lng: number;

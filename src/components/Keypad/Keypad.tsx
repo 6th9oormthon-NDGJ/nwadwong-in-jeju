@@ -79,6 +79,7 @@ const Keypad = ({ onClick }: Props) => {
 };
 
 const Key = styled.button`
+  height: 55px;
   border: none;
   border-radius: 10px;
   background-color: transparent;
@@ -94,7 +95,7 @@ const Key = styled.button`
 
 const Container = styled.div`
   display: grid;
-  grid-gap: 10px;
+  grid-gap: 9px;
   grid-template-columns: repeat(3, 1fr);
   width: 95%;
   height: 30vh;

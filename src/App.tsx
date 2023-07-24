@@ -12,6 +12,7 @@ import { modalState } from './recoil/detailState';
 import Rating from './pages/Rating/RatingModal';
 import ReportModal from './pages/Report/components/ReportModal';
 import './App.css';
+import { useEffect } from 'react';
 
 export default function App() {
   const { pathname } = useLocation();
@@ -19,8 +20,14 @@ export default function App() {
   const donationComplete = useRecoilValue(donationCompleteState);
   const isModalOpen = useRecoilValue(modalState);
 
+  const ratingRegex = /\/(uploadImage|detail)/;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   const showModal =
-    pathname.includes('/detail') && isModalOpen ? (
+    ratingRegex.test(pathname) && isModalOpen ? (
       <Rating />
     ) : pathname.includes('/report') && isModalOpen ? (
       <ReportModal />

@@ -3,11 +3,7 @@ import useAxios from '../../hooks/useAxios';
 import { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { commentDataState } from '../../recoil/commentState';
-import {
-  averageRatingState,
-  detailState,
-  modalState,
-} from '../../recoil/detailState';
+import { averageRatingState, detailState, modalState } from '../../recoil/detailState';
 import Comments from '../Comments/Comments';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
@@ -50,10 +46,7 @@ export default function StoreDetail() {
   function isOpenNow(hours: string) {
     const now = new Date();
     const currentHour = now.getHours();
-    if (
-      Number(hours.split('~')[0]) < currentHour &&
-      currentHour < Number(hours.split('~')[1])
-    ) {
+    if (Number(hours.split('~')[0]) < currentHour && currentHour < Number(hours.split('~')[1])) {
       return '운영중';
     } else {
       return '운영종료';
@@ -72,6 +65,7 @@ export default function StoreDetail() {
       },
     }).then((result: detailDataType) => {
       if (result) {
+        console.log(result);
         setDetail(result);
         setCommentData(result.comments);
         setAverageRating(result.averageRating.toFixed(1));
@@ -99,11 +93,7 @@ export default function StoreDetail() {
               <StarContainer key={num}>
                 <Star
                   key={num}
-                  color={
-                    num <= Math.floor(Number(averageRating))
-                      ? '#96b490'
-                      : '#ebebeb'
-                  }
+                  color={num <= Math.floor(Number(averageRating)) ? '#96b490' : '#ebebeb'}
                 />
               </StarContainer>
             ))}
@@ -119,7 +109,10 @@ export default function StoreDetail() {
               </StarContainer>
             ))}
           </div>
-          <div className="ratingRight" onClick={() => setIsModalOpen(true)}>
+          <div
+            className="ratingRight"
+            onClick={() => setIsModalOpen(true)}
+          >
             <RatingText>별점</RatingText>
             <UserActionArrow />
           </div>

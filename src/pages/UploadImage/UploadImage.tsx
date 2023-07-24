@@ -6,6 +6,7 @@ import { useSetRecoilState } from 'recoil';
 import { userPointState } from '../../recoil/userPointState';
 import { uploadSuccessState } from '../../recoil/uploadSuccessState';
 import PlainButton from '../../components/Button/PlainButton';
+import { modalState } from '../../recoil/detailState';
 
 interface ImageInputProps {
   src?: string;
@@ -29,6 +30,8 @@ export default function UploadImage() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [fileBase64, setFileBase64] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const setIsModalOpen = useSetRecoilState(modalState);
 
   const setUserPointData = useSetRecoilState(userPointState);
   const setIsSuccess = useSetRecoilState(uploadSuccessState);
@@ -65,6 +68,7 @@ export default function UploadImage() {
           setIsSuccess(true);
           setTimeout(() => {
             setIsSuccess(false);
+            setIsModalOpen(true);
           }, 2000);
           setImagePreview(null);
           setFileBase64('');

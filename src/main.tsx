@@ -20,7 +20,7 @@ root.render(
       <ThemeProvider theme={theme}>
         <GlobalStyles />
         <RouterProvider router={Router} />
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </ThemeProvider>
     </QueryClientProvider>
   </RecoilRoot>

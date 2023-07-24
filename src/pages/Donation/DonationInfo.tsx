@@ -21,8 +21,9 @@ const DonationInfo = ({ organization }: Props) => {
 };
 
 const Container = styled.div`
-  width: 100%;
+  width: 270px;
   height: fit-content;
+  margin: 0 auto;
   padding: 9px 18px;
   border-radius: 8px;
   background-color: #fff;

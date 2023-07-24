@@ -18,6 +18,7 @@ export default function SmallHeader() {
 }
 
 const Header = styled.div`
+  height: 113px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,7 +29,7 @@ const Header = styled.div`
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 32px 0;
+    padding: 64px 0 0 0;
   }
 `;
 

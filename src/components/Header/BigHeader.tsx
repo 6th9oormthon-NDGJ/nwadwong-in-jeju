@@ -15,6 +15,7 @@ export default function BigHeader() {
 }
 
 const Container = styled.div`
+  padding-top: 44px;
   display: flex;
   flex-direction: column;
 
