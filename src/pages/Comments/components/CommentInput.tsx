@@ -1,12 +1,7 @@
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import useAxios from '../../../hooks/useAxios';
-import {
-  inputState,
-  commentDataState,
-  isEditState,
-  currentCommentIdState,
-} from '../../../recoil/commentState';
+import { inputState, commentDataState, isEditState, currentCommentIdState } from '../../../recoil/commentState';
 import { useParams } from 'react-router-dom';
 import userState from '../../../recoil/userState';
 
@@ -39,7 +34,7 @@ export default function CommentInput() {
   const postHandler = () => {
     if (content) {
       fetchData({
-        url: '/api/comment',
+        url: 'https://goormtone6th.com/comment',
         method: 'POST',
         headers: {
           authorization: token,
@@ -65,7 +60,7 @@ export default function CommentInput() {
 
   const patchHandler = () => {
     fetchData({
-      url: '/api/comment',
+      url: 'https://goormtone6th.com/comment',
       method: 'PATCH',
       headers: {
         authorization: token,
@@ -73,9 +68,7 @@ export default function CommentInput() {
       data: { commentId: currentCommentId, content: content },
     }).then((result: newCommentType) => {
       setContent('');
-      const index = commentData.findIndex(
-        (obj) => obj.commentId === currentCommentId
-      );
+      const index = commentData.findIndex((obj) => obj.commentId === currentCommentId);
       if (result) {
         setCommentData((prevCommentData) => {
           const updatedCommentData = [...prevCommentData];
