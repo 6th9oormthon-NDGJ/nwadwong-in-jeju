@@ -20,6 +20,8 @@
 
 **[https://nwadwong-in-jeju.vercel.app](https://nwadwong-in-jeju.vercel.app/)**
 
+**[Team Notion](https://9oormthon.goorm.io/008f7e5d-fd1b-4a2f-ae4f-eacc32f3fdd3)**
+
 <br />
 
 **📑 API Docs**
