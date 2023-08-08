@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import CommentInput from './components/CommentInput';
 import CommentList from './components/CommentList';
 import { useRecoilValue } from 'recoil';
-import { detailState } from '../../recoil/detailState';
+import { commentDataState } from '../../recoil/commentState';
 
 export default function Comments() {
-  const detail = useRecoilValue(detailState);
+  const commentData = useRecoilValue(commentDataState);
 
   return (
     <CommentContainer>
-      <CommentNumber>댓글 {detail?.totalComments}</CommentNumber>
+      <CommentNumber>댓글 {commentData.length}</CommentNumber>
       <CommentInput />
       <CommentList />
     </CommentContainer>

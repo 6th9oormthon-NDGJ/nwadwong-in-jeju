@@ -3,19 +3,22 @@ import { HiOutlineEllipsisVertical } from 'react-icons/hi2';
 import useAxios from '../../../hooks/useAxios';
 import { commentDataType } from '../../StoreDetail/StoreDetail';
 import { useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 import {
   commentDataState,
   currentCommentIdState,
   inputState,
   isEditState,
 } from '../../../recoil/commentState';
+import userState from '../../../recoil/userState';
 
 interface DropDownBtnProps {
   commentObj: commentDataType;
 }
 
 export default function DropDownBtn({ commentObj }: DropDownBtnProps) {
+  const user = useRecoilValue(userState);
+
   const [isBtnClicked, setIsBtnClicked] = useState(false);
   const setContent = useSetRecoilState(inputState);
   const setIsEdit = useSetRecoilState(isEditState);
@@ -64,7 +67,9 @@ export default function DropDownBtn({ commentObj }: DropDownBtnProps) {
 
   return (
     <div onMouseLeave={() => setIsBtnClicked(false)}>
-      <EllipsisVertical onClick={() => setIsBtnClicked(!isBtnClicked)} />
+      {user?.id === commentObj.memberId && (
+        <EllipsisVertical onClick={() => setIsBtnClicked(!isBtnClicked)} />
+      )}
       {isBtnClicked && (
         <DropDownBox>
           <DropDownListFirst
@@ -108,6 +113,7 @@ const DropDownList = styled.li`
   font-size: 14px;
   display: flex;
   align-items: center;
+  background-color: #fff;
   color: gray;
 
   &:hover {

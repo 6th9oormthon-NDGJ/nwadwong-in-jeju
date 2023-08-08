@@ -23,14 +23,13 @@ const CupStoreItem = ({ cupStore }: Props) => {
   return (
     <Link to={`/detail/${cupStore.cupStoreId}`}>
       <Container>
-        <img
-          src={machine}
-          alt="store-thumbnail"
-        />
+        <img src={machine} alt="store-thumbnail" />
         <div className="cupstore-info">
           <h3 className="cupstore-name">{cupStore.name}</h3>
           <div className="cupstore-row">
-            <div className="is-open-badge">{isOpen ? '운영중' : '운영종료'}</div>
+            <div className="is-open-badge">
+              {isOpen ? '운영중' : '운영종료'}
+            </div>
             <div className="rating">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -144,6 +143,7 @@ const Container = styled.div`
         font-size: 12px;
 
         p {
+          margin-left: 2px;
           margin-right: 20px;
         }
 
