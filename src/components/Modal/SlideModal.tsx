@@ -3,7 +3,7 @@ import { useSetRecoilState } from 'recoil';
 import { modalState } from '../../recoil/detailState';
 import PlainButton from '../Button/PlainButton';
 
-interface SlideModalProps {
+interface ISlideModalProps {
   modalText?: string;
   modalContent: () => React.ReactNode;
   closeEvent?: () => void;
@@ -22,7 +22,7 @@ export default function SlideModal({
   buttonRightText,
   buttonRightEvent,
   desactiveCondition,
-}: SlideModalProps) {
+}: ISlideModalProps) {
   const setIsSlideModalOpen = useSetRecoilState(modalState);
 
   const closeModal = (closeEvent: CloseEventType) => {

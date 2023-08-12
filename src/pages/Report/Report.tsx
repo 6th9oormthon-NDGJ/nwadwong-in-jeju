@@ -5,7 +5,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { modalState } from '../../recoil/detailState';
 import { reportDataState } from '../../recoil/reportState';
 
-export interface ReportDataType {
+export interface IReportData {
   cupStoreId: number;
   reportType: string | undefined;
   content: string;

@@ -3,26 +3,31 @@ import useAxios from '../../hooks/useAxios';
 import { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { commentDataState } from '../../recoil/commentState';
-import { averageRatingState, detailState, modalState } from '../../recoil/detailState';
+import {
+  averageRatingState,
+  detailState,
+  modalState,
+} from '../../recoil/detailState';
 import Comments from '../Comments/Comments';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
 import { FaStar, FaStarHalf } from 'react-icons/fa';
 import PlainButton from '../../components/Button/PlainButton';
 import machine from '/images/cup-store.png';
+import { AxiosResponse } from 'axios';
 
-export interface detailDataType {
+export interface IDetailData {
   imageUrl: string;
   name: string;
   roadAddress: string;
   hours: string;
   averageRating: number;
-  comments: commentDataType[];
+  comments: ICommentData[];
   totalComments: number;
   totalRatingPeople: number;
 }
 
-export interface commentDataType {
+export interface ICommentData {
   commentNickname: string;
   createdAt: string;
   content: string;
@@ -35,9 +40,7 @@ export default function StoreDetail() {
   const cupStoreId = params.id;
   const navigate = useNavigate();
 
-  const token = localStorage.getItem('token');
-
-  const [, , , fetchData] = useAxios();
+  const [, fetchData] = useAxios<IDetailData>();
 
   const [detail, setDetail] = useRecoilState(detailState);
   const setIsModalOpen = useSetRecoilState(modalState);
@@ -47,7 +50,10 @@ export default function StoreDetail() {
   function isOpenNow(hours: string) {
     const now = new Date();
     const currentHour = now.getHours();
-    if (Number(hours.split('~')[0]) < currentHour && currentHour - 5 < Number(hours.split('~')[1])) {
+    if (
+      Number(hours.split('~')[0]) < currentHour &&
+      currentHour - 5 < Number(hours.split('~')[1])
+    ) {
       return '운영중';
     } else {
       return '운영종료';
@@ -59,19 +65,21 @@ export default function StoreDetail() {
   }
 
   useEffect(() => {
-    fetchData({
-      url: `https://goormtone6th.com/detail?cupStoreId=${cupStoreId}`,
-      headers: {
-        Authorization: token,
+    fetchData(
+      {
+        url: `https://goormtone6th.com/detail?cupStoreId=${cupStoreId}`,
       },
-    }).then((result: detailDataType) => {
-      if (result) {
-        setDetail(result);
-        setCommentData(result.comments);
-        setAverageRating(result.averageRating.toFixed(1));
-      }
-    });
+      handleResponse
+    );
   }, []);
+
+  const handleResponse = (response: AxiosResponse<IDetailData>) => {
+    const data: IDetailData = response.data;
+
+    setDetail(data);
+    setCommentData(data.comments);
+    setAverageRating(data.averageRating.toFixed(1));
+  };
 
   return (
     <>
@@ -93,7 +101,11 @@ export default function StoreDetail() {
               <StarContainer key={num}>
                 <Star
                   key={num}
-                  color={num <= Math.floor(Number(averageRating)) ? '#96b490' : '#ebebeb'}
+                  color={
+                    num <= Math.floor(Number(averageRating))
+                      ? '#96b490'
+                      : '#ebebeb'
+                  }
                 />
               </StarContainer>
             ))}
@@ -109,10 +121,7 @@ export default function StoreDetail() {
               </StarContainer>
             ))}
           </div>
-          <div
-            className="ratingRight"
-            onClick={() => setIsModalOpen(true)}
-          >
+          <div className="ratingRight" onClick={() => setIsModalOpen(true)}>
             <RatingText>별점</RatingText>
             <UserActionArrow />
           </div>

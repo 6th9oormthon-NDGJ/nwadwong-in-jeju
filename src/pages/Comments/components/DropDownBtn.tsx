@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { HiOutlineEllipsisVertical } from 'react-icons/hi2';
 import useAxios from '../../../hooks/useAxios';
-import { commentDataType } from '../../StoreDetail/StoreDetail';
+import { ICommentData } from '../../StoreDetail/StoreDetail';
 import { useState } from 'react';
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 import {
@@ -11,12 +11,17 @@ import {
   isEditState,
 } from '../../../recoil/commentState';
 import userState from '../../../recoil/userState';
+import { AxiosResponse } from 'axios';
 
-interface DropDownBtnProps {
-  commentObj: commentDataType;
+interface IDropDownBtnProps {
+  commentObj: ICommentData;
 }
 
-export default function DropDownBtn({ commentObj }: DropDownBtnProps) {
+interface IDeleteResponse {
+  deletedCommentId: number;
+}
+
+export default function DropDownBtn({ commentObj }: IDropDownBtnProps) {
   const user = useRecoilValue(userState);
 
   const [isBtnClicked, setIsBtnClicked] = useState(false);
@@ -25,7 +30,7 @@ export default function DropDownBtn({ commentObj }: DropDownBtnProps) {
   const setCurrentCommentId = useSetRecoilState(currentCommentIdState);
   const [commentData, setCommentData] = useRecoilState(commentDataState);
 
-  const [, , , fetchData] = useAxios();
+  const [, fetchData] = useAxios<IDeleteResponse>();
   const token = localStorage.getItem('token');
 
   const deleteHandler = (e: React.MouseEvent<HTMLLIElement>) => {
@@ -33,26 +38,16 @@ export default function DropDownBtn({ commentObj }: DropDownBtnProps) {
     const dataValue = parseInt(liElement.getAttribute('data-value') || '0', 10);
     setCurrentCommentId(dataValue);
 
-    fetchData({
-      url: `/api/comment?commentId=${commentObj.commentId}`,
-      method: 'DELETE',
-      headers: {
-        authorization: token,
+    fetchData(
+      {
+        url: `/api/comment?commentId=${commentObj.commentId}`,
+        method: 'DELETE',
+        headers: {
+          authorization: token,
+        },
       },
-    }).then((result: { deletedCommentId: number }) => {
-      const index = commentData.findIndex(
-        (obj) => obj.commentId === result.deletedCommentId
-      );
-      if (result) {
-        setCommentData((prevCommentData) => {
-          const updatedCommentData = [...prevCommentData];
-          updatedCommentData.splice(index, 1);
-          return updatedCommentData;
-        });
-      }
-    });
-
-    setIsBtnClicked(false);
+      handleResponse
+    );
   };
 
   const editHandler = (e: React.MouseEvent<HTMLLIElement>) => {
@@ -62,6 +57,20 @@ export default function DropDownBtn({ commentObj }: DropDownBtnProps) {
     setContent(dataContent);
     setCurrentCommentId(dataValue);
     setIsEdit(true);
+    setIsBtnClicked(false);
+  };
+
+  const handleResponse = (response: AxiosResponse<IDeleteResponse>) => {
+    const data: IDeleteResponse = response.data;
+    const index = commentData.findIndex(
+      (obj) => obj.commentId === data.deletedCommentId
+    );
+
+    setCommentData((prevCommentData) => {
+      const updatedCommentData = [...prevCommentData];
+      updatedCommentData.splice(index, 1);
+      return updatedCommentData;
+    });
     setIsBtnClicked(false);
   };
 
