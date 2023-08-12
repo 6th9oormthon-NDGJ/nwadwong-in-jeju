@@ -41,7 +41,7 @@ export default function CommentInput() {
     if (content) {
       fetchData(
         {
-          url: 'https://goormtone6th.com/comment',
+          url: '/api/comment',
           method: isEdit ? 'PATCH' : 'POST',
           headers: {
             authorization: token,

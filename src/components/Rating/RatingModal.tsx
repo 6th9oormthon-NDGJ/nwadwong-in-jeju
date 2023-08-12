@@ -7,7 +7,7 @@ import {
 import useAxios from '../../hooks/useAxios';
 import { useNavigate, useParams } from 'react-router-dom';
 import RatingContent from './components/RatingContent';
-import SlideModal from '../../components/Modal/SlideModal';
+import SlideModal from '../Modal/SlideModal';
 import { AxiosResponse } from 'axios';
 
 interface IRatingResponse {
@@ -27,7 +27,7 @@ export default function Rating() {
   const ratingHandler = () => {
     fetchData(
       {
-        url: 'https://goormtone6th.com/rating',
+        url: '/api/rating',
         method: 'POST',
         headers: {
           authorization: token,

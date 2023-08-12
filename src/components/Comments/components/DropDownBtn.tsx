@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { HiOutlineEllipsisVertical } from 'react-icons/hi2';
 import useAxios from '../../../hooks/useAxios';
-import { ICommentData } from '../../StoreDetail/StoreDetail';
+import { ICommentData } from '../../../pages/StoreDetail/StoreDetail';
 import { useState } from 'react';
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 import {

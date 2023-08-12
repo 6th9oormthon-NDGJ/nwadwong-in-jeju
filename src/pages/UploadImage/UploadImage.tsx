@@ -9,7 +9,7 @@ import PlainButton from '../../components/Button/PlainButton';
 import { modalState } from '../../recoil/detailState';
 import { AxiosResponse } from 'axios';
 
-interface ImageInputProps {
+interface IImageInputProps {
   src?: string;
   $imagePreview?: string | null;
 }
@@ -58,7 +58,7 @@ export default function UploadImage() {
 
       fetchData(
         {
-          url: 'https://goormtone6th.com/upload-image',
+          url: '/api/upload-image',
           method: 'POST',
           headers: {
             Authorization: token,
@@ -135,7 +135,7 @@ const UploadContainer = styled.div`
   align-items: center;
 `;
 
-const UploadBtn = styled.form<ImageInputProps>`
+const UploadBtn = styled.form<IImageInputProps>`
   width: 100%;
   height: 486px;
   margin: 0 auto 38px auto;
@@ -165,7 +165,7 @@ const UploadLabel = styled.label`
   }
 `;
 
-const ImagePreview = styled.img<ImageInputProps>`
+const ImagePreview = styled.img<IImageInputProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -181,7 +181,7 @@ const AddIcon = styled.img`
   transform: translate(-50%, 0%);
 `;
 
-const ImageInput = styled.input<ImageInputProps>`
+const ImageInput = styled.input<IImageInputProps>`
   width: 334px;
   height: 486px;
   display: none;
