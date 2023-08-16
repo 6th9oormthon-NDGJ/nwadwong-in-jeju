@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
-import { ReportDataType } from '../pages/Report/Report';
+import { IReportData } from '../pages/Report/Report';
 
-export const reportDataState = atom<ReportDataType>({
+export const reportDataState = atom<IReportData>({
   key: 'reportDataState',
   default: { cupStoreId: 0, reportType: undefined, content: '', name: '' },
 });

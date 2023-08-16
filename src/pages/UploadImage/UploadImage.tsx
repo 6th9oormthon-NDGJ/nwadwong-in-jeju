@@ -7,13 +7,14 @@ import { userPointState } from '../../recoil/userPointState';
 import { uploadSuccessState } from '../../recoil/uploadSuccessState';
 import PlainButton from '../../components/Button/PlainButton';
 import { modalState } from '../../recoil/detailState';
+import { AxiosResponse } from 'axios';
 
-interface ImageInputProps {
+interface IImageInputProps {
   src?: string;
   $imagePreview?: string | null;
 }
 
-export interface UserPointDataType {
+export interface IUserPointData {
   cupStoreName: string;
   memberNickname: string;
   memberAccumulatedPoint: number;
@@ -25,7 +26,7 @@ export default function UploadImage() {
   const params = useParams();
   const cupStoreId = params.id;
   const token = localStorage.getItem('token');
-  const [, , , fetchData] = useAxios();
+  const [, fetchData] = useAxios<IUserPointData>();
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [fileBase64, setFileBase64] = useState('');
@@ -55,25 +56,30 @@ export default function UploadImage() {
       const base64Result = imagePreview.split(',')[1];
       setFileBase64(base64Result);
 
-      fetchData({
-        url: 'https://goormtone6th.com/upload-image',
-        method: 'POST',
-        headers: {
-          Authorization: token,
+      fetchData(
+        {
+          url: '/api/upload-image',
+          method: 'POST',
+          headers: {
+            Authorization: token,
+          },
+          data: { file: fileBase64, cupStoreId: cupStoreId },
         },
-        data: { file: fileBase64, cupStoreId: cupStoreId },
-      }).then((result: UserPointDataType) => {
-        if (result) {
-          setUserPointData(result);
-          setIsSuccess(true);
-          setTimeout(() => {
-            setIsSuccess(false);
-            setIsModalOpen(true);
-          }, 1500);
-          setFileBase64('');
-        }
-      });
+        handleResponse
+      );
     }
+  };
+
+  const handleResponse = (response: AxiosResponse<IUserPointData>) => {
+    const data: IUserPointData = response.data;
+
+    setUserPointData(data);
+    setIsSuccess(true);
+    setTimeout(() => {
+      setIsSuccess(false);
+      setIsModalOpen(true);
+    }, 1500);
+    setFileBase64('');
   };
 
   return (
@@ -84,7 +90,9 @@ export default function UploadImage() {
             src="/images/uploadImage/default.png"
             $imagePreview={imagePreview}
           ></ImagePreview>
-          {!imagePreview && <AddIcon src="/images/uploadImage/addIcon.png"></AddIcon>}
+          {!imagePreview && (
+            <AddIcon src="/images/uploadImage/addIcon.png"></AddIcon>
+          )}
         </UploadLabel>
         <ImageInput
           type="file"
@@ -127,7 +135,7 @@ const UploadContainer = styled.div`
   align-items: center;
 `;
 
-const UploadBtn = styled.form<ImageInputProps>`
+const UploadBtn = styled.form<IImageInputProps>`
   width: 100%;
   height: 486px;
   margin: 0 auto 38px auto;
@@ -157,11 +165,14 @@ const UploadLabel = styled.label`
   }
 `;
 
-const ImagePreview = styled.img<ImageInputProps>`
+const ImagePreview = styled.img<IImageInputProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  display: ${(props) => (!props.$imagePreview || props.$imagePreview === '#d9d9d9' ? 'block' : 'none')};
+  display: ${(props) =>
+    !props.$imagePreview || props.$imagePreview === '#d9d9d9'
+      ? 'block'
+      : 'none'};
 `;
 
 const AddIcon = styled.img`
@@ -170,7 +181,7 @@ const AddIcon = styled.img`
   transform: translate(-50%, 0%);
 `;
 
-const ImageInput = styled.input<ImageInputProps>`
+const ImageInput = styled.input<IImageInputProps>`
   width: 334px;
   height: 486px;
   display: none;

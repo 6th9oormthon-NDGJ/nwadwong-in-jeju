@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
-import { commentDataType } from '../pages/StoreDetail/StoreDetail';
+import { ICommentData } from '../pages/StoreDetail/StoreDetail';
 
-export const commentDataState = atom<commentDataType[]>({
+export const commentDataState = atom<ICommentData[]>({
   key: 'commentDataState',
   default: [
     {

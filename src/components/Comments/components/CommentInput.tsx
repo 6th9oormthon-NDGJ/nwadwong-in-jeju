@@ -1,11 +1,17 @@
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import useAxios from '../../../hooks/useAxios';
-import { inputState, commentDataState, isEditState, currentCommentIdState } from '../../../recoil/commentState';
+import {
+  inputState,
+  commentDataState,
+  isEditState,
+  currentCommentIdState,
+} from '../../../recoil/commentState';
 import { useParams } from 'react-router-dom';
 import userState from '../../../recoil/userState';
+import { AxiosResponse } from 'axios';
 
-interface newCommentType {
+interface INewComment {
   cupStoreName: string;
   content: string;
   createdAt: string;
@@ -15,7 +21,7 @@ interface newCommentType {
 }
 
 export default function CommentInput() {
-  const [, , , fetchData] = useAxios();
+  const [, fetchData] = useAxios<INewComment>();
   const params = useParams();
   const cupStoreId = params.id;
 
@@ -31,61 +37,61 @@ export default function CommentInput() {
     setContent(e.target.value);
   };
 
-  const postHandler = () => {
+  const postEditHandler = () => {
     if (content) {
-      fetchData({
-        url: 'https://goormtone6th.com/comment',
-        method: 'POST',
-        headers: {
-          authorization: token,
+      fetchData(
+        {
+          url: '/api/comment',
+          method: isEdit ? 'PATCH' : 'POST',
+          headers: {
+            authorization: token,
+          },
+          data: isEdit
+            ? { commentId: currentCommentId, content: content }
+            : { cupStoreId: cupStoreId, content: content },
         },
-        data: { cupStoreId: cupStoreId, content: content },
-      }).then((result: newCommentType) => {
-        setContent('');
-        if (result) {
-          setCommentData((prevData) => [
-            {
-              content: result.content,
-              createdAt: result.createdAt,
-              commentNickname: result.commentNickname,
-              commentId: result.commentId,
-              memberId: user?.id,
-            },
-            ...prevData,
-          ]);
-        }
-      });
+        isEdit ? editResponse : postResponse
+      );
     }
   };
 
-  const patchHandler = () => {
-    fetchData({
-      url: 'https://goormtone6th.com/comment',
-      method: 'PATCH',
-      headers: {
-        authorization: token,
+  const postResponse = (response: AxiosResponse<INewComment>) => {
+    const data: INewComment = response.data;
+
+    setContent('');
+    setCommentData((prevData) => [
+      {
+        content: data.content,
+        createdAt: data.createdAt,
+        commentNickname: data.commentNickname,
+        commentId: data.commentId,
+        memberId: user?.id,
       },
-      data: { commentId: currentCommentId, content: content },
-    }).then((result: newCommentType) => {
-      setContent('');
-      const index = commentData.findIndex((obj) => obj.commentId === currentCommentId);
-      if (result) {
-        setCommentData((prevCommentData) => {
-          const updatedCommentData = [...prevCommentData];
-          updatedCommentData[index] = {
-            ...updatedCommentData[index],
-            content: result.content,
-          };
-          return updatedCommentData;
-        });
-      }
-      setIsEdit(false);
+      ...prevData,
+    ]);
+  };
+
+  const editResponse = (response: AxiosResponse<INewComment>) => {
+    const data: INewComment = response.data;
+    const index = commentData.findIndex(
+      (obj) => obj.commentId === currentCommentId
+    );
+
+    setContent('');
+    setIsEdit(false);
+    setCommentData((prevCommentData) => {
+      const updatedCommentData = [...prevCommentData];
+      updatedCommentData[index] = {
+        ...updatedCommentData[index],
+        content: data.content,
+      };
+      return updatedCommentData;
     });
   };
 
   const enterEvent = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
-      isEdit ? patchHandler() : postHandler();
+      postEditHandler();
     }
   };
 
@@ -99,7 +105,7 @@ export default function CommentInput() {
         readOnly={!token}
       />
       <SubmitButton
-        onClick={isEdit ? patchHandler : postHandler}
+        onClick={postEditHandler}
         disabled={!token}
         $isActive={Boolean(content)}
       >

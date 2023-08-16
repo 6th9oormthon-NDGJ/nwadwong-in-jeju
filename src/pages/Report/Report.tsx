@@ -5,7 +5,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { modalState } from '../../recoil/detailState';
 import { reportDataState } from '../../recoil/reportState';
 
-export interface ReportDataType {
+export interface IReportData {
   cupStoreId: number;
   reportType: string | undefined;
   content: string;
@@ -117,8 +117,7 @@ const InputBox = styled.div`
 const InputPlace = styled.textarea`
   width: 93%;
   height: 157px;
-  padding-left: 15px;
-  padding-top: 15px;
+  padding: 15px;
   border: 0.85px solid #e1e1e8;
   border-radius: 8px;
   outline: none;

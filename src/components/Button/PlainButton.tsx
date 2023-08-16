@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-export interface ButtonProps {
+export interface IButtonProps {
   width: 'half' | 'full';
   event: () => void;
   text: string;
@@ -8,7 +8,7 @@ export interface ButtonProps {
   disabled?: boolean;
 }
 
-export interface ButtonStyleProps {
+export interface IButtonStyleProps {
   width: 'half' | 'full';
   colors: {
     backgroundColor?: string;
@@ -24,7 +24,7 @@ export default function PlainButton({
   text,
   style,
   disabled,
-}: ButtonProps) {
+}: IButtonProps) {
   return (
     <Button
       width={width}
@@ -37,7 +37,7 @@ export default function PlainButton({
   );
 }
 
-const Button = styled.button<ButtonStyleProps>`
+const Button = styled.button<IButtonStyleProps>`
   width: ${(props) => (props.width === 'half' ? '48.5%' : '100%')};
   height: 50px;
   border-radius: 8px;

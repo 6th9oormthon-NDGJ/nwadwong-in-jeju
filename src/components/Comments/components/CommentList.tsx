@@ -23,9 +23,7 @@ export default function CommentList() {
                 </CreatedAt>
               </CommentLeft>
               <CommentRight>
-                {user?.id === item.memberId && (
-                  <DropDownBtn commentObj={item} />
-                )}
+                <DropDownBtn commentObj={item} />
               </CommentRight>
             </CommentHeader>
             <CommentContent>{item.content}</CommentContent>

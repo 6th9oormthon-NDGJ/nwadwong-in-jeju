@@ -3,26 +3,31 @@ import useAxios from '../../hooks/useAxios';
 import { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { commentDataState } from '../../recoil/commentState';
-import { averageRatingState, detailState, modalState } from '../../recoil/detailState';
-import Comments from '../Comments/Comments';
+import {
+  averageRatingState,
+  detailState,
+  modalState,
+} from '../../recoil/detailState';
+import Comments from '../../components/Comments/Comments';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
-import { FaStar, FaStarHalf } from 'react-icons/fa';
 import PlainButton from '../../components/Button/PlainButton';
 import machine from '/images/cup-store.png';
+import { AxiosResponse } from 'axios';
+import RatingStars from '../../components/Rating/components/RatingStars';
 
-export interface detailDataType {
+export interface IDetailData {
   imageUrl: string;
   name: string;
   roadAddress: string;
   hours: string;
   averageRating: number;
-  comments: commentDataType[];
+  comments: ICommentData[];
   totalComments: number;
   totalRatingPeople: number;
 }
 
-export interface commentDataType {
+export interface ICommentData {
   commentNickname: string;
   createdAt: string;
   content: string;
@@ -35,19 +40,20 @@ export default function StoreDetail() {
   const cupStoreId = params.id;
   const navigate = useNavigate();
 
-  const token = localStorage.getItem('token');
-
-  const [, , , fetchData] = useAxios();
+  const [, fetchData] = useAxios<IDetailData>();
 
   const [detail, setDetail] = useRecoilState(detailState);
-  const setIsModalOpen = useSetRecoilState(modalState);
   const setCommentData = useSetRecoilState(commentDataState);
-  const [averageRating, setAverageRating] = useRecoilState(averageRatingState);
+  const setAverageRating = useSetRecoilState(averageRatingState);
+  const setIsModalOpen = useSetRecoilState(modalState);
 
   function isOpenNow(hours: string) {
     const now = new Date();
     const currentHour = now.getHours();
-    if (Number(hours.split('~')[0]) < currentHour && currentHour - 5 < Number(hours.split('~')[1])) {
+    if (
+      Number(hours.split('~')[0]) < currentHour &&
+      currentHour - 5 < Number(hours.split('~')[1])
+    ) {
       return '운영중';
     } else {
       return '운영종료';
@@ -59,19 +65,21 @@ export default function StoreDetail() {
   }
 
   useEffect(() => {
-    fetchData({
-      url: `https://goormtone6th.com/detail?cupStoreId=${cupStoreId}`,
-      headers: {
-        Authorization: token,
+    fetchData(
+      {
+        url: `/api/detail?cupStoreId=${cupStoreId}`,
       },
-    }).then((result: detailDataType) => {
-      if (result) {
-        setDetail(result);
-        setCommentData(result.comments);
-        setAverageRating(result.averageRating.toFixed(1));
-      }
-    });
+      handleResponse
+    );
   }, []);
+
+  const handleResponse = (response: AxiosResponse<IDetailData>) => {
+    const data: IDetailData = response.data;
+
+    setDetail(data);
+    setCommentData(data.comments);
+    setAverageRating(data.averageRating.toFixed(1));
+  };
 
   return (
     <>
@@ -88,31 +96,8 @@ export default function StoreDetail() {
           </StoreHours>
         </StoreInfo>
         <RatingContainer>
-          <div className="ratingLeft">
-            {[1, 2, 3, 4, 5].map((num) => (
-              <StarContainer key={num}>
-                <Star
-                  key={num}
-                  color={num <= Math.floor(Number(averageRating)) ? '#96b490' : '#ebebeb'}
-                />
-              </StarContainer>
-            ))}
-            <RatingAverage>{averageRating}</RatingAverage>
-          </div>
-          <div className="halfStars">
-            {[0, 1, 2, 3, 4].map((num) => (
-              <StarContainer key={num}>
-                <HalfStar
-                  key={num}
-                  color={num < Number(averageRating) ? '#96b490' : '#ebebeb'}
-                />
-              </StarContainer>
-            ))}
-          </div>
-          <div
-            className="ratingRight"
-            onClick={() => setIsModalOpen(true)}
-          >
+          <RatingStars />
+          <div className="ratingRight" onClick={() => setIsModalOpen(true)}>
             <RatingText>별점</RatingText>
             <UserActionArrow />
           </div>
@@ -202,53 +187,21 @@ const Hours = styled.p`
   color: #a1a1a1;
 `;
 
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  margin-bottom: 45px;
+`;
+
 const RatingContainer = styled.div`
   display: flex;
   justify-content: space-between;
-
-  .ratingLeft {
-    display: flex;
-    align-items: center;
-    position: relative;
-  }
 
   .ratingRight {
     display: flex;
     align-items: center;
   }
-
-  .halfStars {
-    position: absolute;
-    display: flex;
-  }
-`;
-
-const StarContainer = styled.div`
-  background-color: transparent;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-const Star = styled(FaStar)`
-  width: 20px;
-  height: 20px;
-  margin: 0 2px;
-  color: ${(props) => props.color};
-`;
-
-const HalfStar = styled(FaStarHalf)`
-  width: 20px;
-  height: 20px;
-  margin: 0 2px;
-  color: ${(props) => props.color};
-`;
-
-const RatingAverage = styled(Hours)`
-  padding: 0 7px;
-  color: #525463;
-  font-size: 18px;
-  font-weight: 700;
 `;
 
 const RatingText = styled(Hours)`
@@ -261,11 +214,4 @@ const UserActionArrow = styled(FiChevronRight)`
   width: 20px;
   height: 20px;
   color: #a1a1a1;
-`;
-
-const ButtonBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
-  margin-bottom: 45px;
 `;

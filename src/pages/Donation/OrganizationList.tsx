@@ -7,7 +7,11 @@ interface Props {
   onClick: (organization: Organization) => void;
 }
 
-const OrganizationList = ({ organizations, currentOrganizationId, onClick }: Props) => {
+const OrganizationList = ({
+  organizations,
+  currentOrganizationId,
+  onClick,
+}: Props) => {
   return (
     <Container>
       <ul>
@@ -16,13 +20,20 @@ const OrganizationList = ({ organizations, currentOrganizationId, onClick }: Pro
             <OrganizationItem
               onClick={() => onClick(organization)}
               key={organization.id}
-              className={currentOrganizationId === organization.id ? 'active' : ''}
+              className={
+                currentOrganizationId === organization.id ? 'active' : ''
+              }
             >
               <div className="group">{organization.name}</div>
               <div className="title">{organization.description}</div>
               <span className="point">
-                <span className="current-point">{organization.point.toLocaleString()}</span>/
-                <span className="max-point">{organization.maxPoint.toLocaleString()} POINT</span>
+                <span className="current-point">
+                  {organization.point.toLocaleString()}
+                </span>
+                /
+                <span className="max-point">
+                  {organization.maxPoint.toLocaleString()} POINT
+                </span>
               </span>
             </OrganizationItem>
           );
@@ -36,6 +47,17 @@ const OrganizationList = ({ organizations, currentOrganizationId, onClick }: Pro
 const Container = styled.div`
   overflow-x: scroll;
   margin-bottom: 20px;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+    border-radius: 6px;
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #d3d3d3;
+    border-radius: 6px;
+  }
 
   ul {
     position: relative;

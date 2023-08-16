@@ -9,7 +9,7 @@ import { useRecoilValue } from 'recoil';
 import donationCompleteState from './recoil/donationCompleteState';
 import DonationCompleteLayer from './pages/Donation/DonationCompleteLayer';
 import { modalState } from './recoil/detailState';
-import Rating from './pages/Rating/RatingModal';
+import Rating from './components/Rating/RatingModal';
 import ReportModal from './pages/Report/components/ReportModal';
 import './App.css';
 import { useEffect } from 'react';

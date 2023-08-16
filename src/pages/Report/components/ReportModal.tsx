@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function ReportModal() {
   const navigate = useNavigate();
-  const [, , , fetchData] = useAxios();
+  const [, fetchData] = useAxios();
   const token = localStorage.getItem('token');
   const reportData = useRecoilValue(reportDataState);
   const resetReportData = useResetRecoilState(reportDataState);
@@ -15,7 +15,7 @@ export default function ReportModal() {
 
   const reportHandler = () => {
     fetchData({
-      url: 'https://goormtone6th.com/report',
+      url: '/api/report',
       method: 'POST',
       headers: {
         Authorization: token,
