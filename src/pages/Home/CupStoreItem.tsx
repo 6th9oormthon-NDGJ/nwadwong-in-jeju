@@ -58,8 +58,8 @@ const CupStoreItem = ({ cupStore }: Props) => {
                   fill="none"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M8.31538 15.8776L7.16663 14.7276L11.8954 10.0001L7.16663 5.27131L8.31538 4.12256L14.1941 10.0001L8.31538 15.8776Z"
                     fill="#B3B3B3"
                   />

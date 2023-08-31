@@ -61,17 +61,19 @@ export default function DropDownBtn({ commentObj }: IDropDownBtnProps) {
   };
 
   const handleResponse = (response: AxiosResponse<IDeleteResponse>) => {
-    const data: IDeleteResponse = response.data;
-    const index = commentData.findIndex(
-      (obj) => obj.commentId === data.deletedCommentId
-    );
+    if (response) {
+      const data: IDeleteResponse = response.data;
+      const index = commentData.findIndex(
+        (obj) => obj.commentId === data.deletedCommentId
+      );
 
-    setCommentData((prevCommentData) => {
-      const updatedCommentData = [...prevCommentData];
-      updatedCommentData.splice(index, 1);
-      return updatedCommentData;
-    });
-    setIsBtnClicked(false);
+      setCommentData((prevCommentData) => {
+        const updatedCommentData = [...prevCommentData];
+        updatedCommentData.splice(index, 1);
+        return updatedCommentData;
+      });
+      setIsBtnClicked(false);
+    }
   };
 
   return (
