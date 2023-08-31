@@ -39,12 +39,14 @@ export default function Rating() {
   };
 
   const handleResponse = (response: AxiosResponse<IRatingResponse>) => {
-    const data: IRatingResponse = response.data;
+    if (response) {
+      const data: IRatingResponse = response.data;
 
-    setAverageRating(data.averageRating.toFixed(1));
-    setIsRatingModalOpen(false);
-    navigate(`/detail/${params.id}`);
-    setStarIndex(0);
+      setAverageRating(data.averageRating.toFixed(1));
+      setIsRatingModalOpen(false);
+      navigate(`/detail/${params.id}`);
+      setStarIndex(0);
+    }
   };
 
   return (

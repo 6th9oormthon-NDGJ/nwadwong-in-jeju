@@ -71,15 +71,17 @@ export default function UploadImage() {
   };
 
   const handleResponse = (response: AxiosResponse<IUserPointData>) => {
-    const data: IUserPointData = response.data;
+    if (response) {
+      const data: IUserPointData = response.data;
 
-    setUserPointData(data);
-    setIsSuccess(true);
-    setTimeout(() => {
-      setIsSuccess(false);
-      setIsModalOpen(true);
-    }, 1500);
-    setFileBase64('');
+      setUserPointData(data);
+      setIsSuccess(true);
+      setTimeout(() => {
+        setIsSuccess(false);
+        setIsModalOpen(true);
+      }, 1500);
+      setFileBase64('');
+    }
   };
 
   return (

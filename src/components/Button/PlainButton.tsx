@@ -42,7 +42,7 @@ const Button = styled.button<IButtonStyleProps>`
   height: 50px;
   border-radius: 8px;
   background-color: ${(props) => props.colors.backgroundColor};
-  color: ${(props) => props.colors.color};
+  color: ${(props) => props.colors.color} !important;
   border: ${(props) => props.colors.border};
   font-size: 16px;
   font-weight: 500;

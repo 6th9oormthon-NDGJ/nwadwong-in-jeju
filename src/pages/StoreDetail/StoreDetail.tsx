@@ -74,11 +74,13 @@ export default function StoreDetail() {
   }, []);
 
   const handleResponse = (response: AxiosResponse<IDetailData>) => {
-    const data: IDetailData = response.data;
+    if (response) {
+      const data: IDetailData = response.data;
 
-    setDetail(data);
-    setCommentData(data.comments);
-    setAverageRating(data.averageRating.toFixed(1));
+      setDetail(data);
+      setCommentData(data.comments);
+      setAverageRating(data.averageRating.toFixed(1));
+    }
   };
 
   return (
