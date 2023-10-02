@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
-import { detailDataType } from '../pages/StoreDetail/StoreDetail';
+import { IDetailData } from '../pages/StoreDetail/StoreDetail';
 
-export const detailState = atom<detailDataType | null>({
+export const detailState = atom<IDetailData | null>({
   key: 'detailState',
   default: null,
 });
