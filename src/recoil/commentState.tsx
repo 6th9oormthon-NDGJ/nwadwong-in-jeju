@@ -3,15 +3,7 @@ import { ICommentData } from '../pages/StoreDetail/StoreDetail';
 
 export const commentDataState = atom<ICommentData[]>({
   key: 'commentDataState',
-  default: [
-    {
-      commentNickname: '',
-      createdAt: '',
-      content: '',
-      commentId: 0,
-      memberId: '',
-    },
-  ],
+  default: [],
 });
 
 export const inputState = atom({
