@@ -1,4 +1,4 @@
-![image](https://file.notion.so/f/s/e6436d65-2fd8-491b-9136-c91dd8b3cce5/intro.png?id=72d3f7cd-47f3-45fd-90e1-cdbc94ea1607&table=block&spaceId=3f82ccc4-3c95-4173-9fd0-0f77ec349c9c&expirationTimestamp=1695319200000&signature=OjZG7AilfG1GKdCD7fehvGvVLB_nFwAdHEbNPeaSohM&downloadName=intro.png)
+![image](https://velog.velcdn.com/images/seoyunlefleuve/post/863089b5-542c-486d-b80c-ee8d4cfc95f1/image.png)
 
 # 🔍 Intro
 > ‘놔뒁’은 ‘여기에 두고 가’라는 제주 방언으로, <br />
@@ -45,7 +45,7 @@
 <br />
 
 # ℹ️ Information Architecture
-![image](https://file.notion.so/f/s/6bc6518d-6c0e-46da-9a8c-c854e3bc1ca4/IA.png?id=f89c3188-b848-4751-bdd4-558c70ebd428&table=block&spaceId=3f82ccc4-3c95-4173-9fd0-0f77ec349c9c&expirationTimestamp=1695319200000&signature=5R_HzvvRwf8i8vYj9vTr_vu_AKCvSz5uBA10CS4uR1w&downloadName=IA.png)
+![image](https://velog.velcdn.com/images/seoyunlefleuve/post/da464a4e-a1a9-455e-9101-ae64e568c510/image.png)
 
 <br />
 <br />
@@ -68,7 +68,7 @@
 <br />
 
 ## ⚙️ System Architecture
-![image](https://file.notion.so/f/s/52d2ddbf-8215-410b-8fdf-63ebca46f779/architecture.png?id=f7f9916a-686b-4473-bba3-c30a9c6a50e1&table=block&spaceId=3f82ccc4-3c95-4173-9fd0-0f77ec349c9c&expirationTimestamp=1695319200000&signature=7e4hTXLvHv1MtP_iXgqeI6y82lOnEOXoHdUSF7FE2EU&downloadName=architecture.png)
+![image](https://velog.velcdn.com/images/seoyunlefleuve/post/ea9acac5-66c3-45b6-b753-f499c7db1595/image.png)
 
 <br />
 <br />
